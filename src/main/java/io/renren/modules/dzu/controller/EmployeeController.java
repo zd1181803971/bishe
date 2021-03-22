@@ -9,6 +9,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
 import java.util.Map;
 
 
@@ -26,7 +28,23 @@ public class EmployeeController extends AbstractController {
     @Autowired
     private EmployeeService employeeService;
 
+// 获取主页图一参数
+    @GetMapping("/chartLine")
+    public R getChartLineData(){
+        HashMap<String,Integer> list = employeeService.getChartLineData();
+        return R.ok().put("data",list);
+    }
 
+
+
+//    通过ids 获取员工信息
+    @GetMapping("/getEmpsByIds")
+    public R getEmpByIds(@RequestParam Map<String, Object> map){
+        List<EmployeeEntity> lists = employeeService.getEmpByIds(map);
+        return R.ok().put("employeeList",lists);
+    }
+
+    //通过工号获取用户信息
     @GetMapping("/jobNumber/{jobnumber}")
     public R getEmployeeByjobNumber(@PathVariable("jobnumber") String jobnumber){
         EmployeeEntity employee =  employeeService.getEmployeeByjobNumber(jobnumber);
@@ -53,6 +71,8 @@ public class EmployeeController extends AbstractController {
 
         return R.ok().put("employee", employee);
     }
+
+
 
     /**
      * 保存

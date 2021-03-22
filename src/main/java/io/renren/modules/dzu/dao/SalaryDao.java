@@ -1,17 +1,18 @@
 package io.renren.modules.dzu.dao;
 
-import io.renren.modules.dzu.entity.SalaryEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.modules.dzu.entity.SalaryEntity;
 import org.apache.ibatis.annotations.Mapper;
 
 /**
  * 员工工资表
- * 
+ *
  * @author zhaodong
  * @email zhaodong0826@qq.com
  * @date 2021-03-20 17:55:17
  */
 @Mapper
 public interface SalaryDao extends BaseMapper<SalaryEntity> {
-	
+
+
 }

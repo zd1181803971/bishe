@@ -16,5 +16,8 @@ import java.util.Map;
 public interface SalaryService extends IService<SalaryEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+
+    SalaryEntity getSalaryByid(Long eid);
 }
 

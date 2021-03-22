@@ -1,20 +1,14 @@
 package io.renren.modules.dzu.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.dzu.entity.SalaryEntity;
-import io.renren.modules.dzu.service.SalaryService;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.modules.dzu.entity.SalaryEntity;
+import io.renren.modules.dzu.service.SalaryService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
@@ -31,15 +25,21 @@ public class SalaryController {
     @Autowired
     private SalaryService salaryService;
 
+//    通过eid查询员工工资
+    @RequestMapping("/salaryEid/{eid}")
+    public R getSalaryByEid(@PathVariable("eid") Long eid){
+        SalaryEntity salary =  salaryService.getSalaryByid(eid);
+        return R.ok().put("salary",salary);
+    }
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = salaryService.queryPage(params);
-
         return R.ok().put("page", page);
     }
+
 
 
     /**
@@ -58,7 +58,6 @@ public class SalaryController {
     @RequestMapping("/save")
     public R save(@RequestBody SalaryEntity salary){
 		salaryService.save(salary);
-
         return R.ok();
     }
 
