@@ -1,6 +1,5 @@
 package io.renren.modules.dzu.entity.form;
 
-import io.renren.modules.dzu.entity.SalaryEntity;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -14,7 +13,10 @@ import lombok.NoArgsConstructor;
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SalaryForm  extends SalaryEntity {
+public class SalaryForm {
+
+    private Long id;
+
     /**
      * 员工姓名
      */
@@ -23,4 +25,24 @@ public class SalaryForm  extends SalaryEntity {
     员工工号
      */
     private String jobnumber;
+    /**
+     * 基本工资
+     */
+    private Double basicsalary;
+    /**
+     * 奖金
+     */
+    private Double bonus;
+    /**
+     * 午餐补助
+     */
+    private Double lunchsalary;
+    /**
+     * 交通补助
+     */
+    private Double trafficsalary;
+    /**
+     * 应发工资
+     */
+    private Double allsalary;
 }

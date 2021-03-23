@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -25,6 +26,21 @@ public class SalaryController {
     @Autowired
     private SalaryService salaryService;
 
+//公司所有员工的工资统计  首页图二
+    @GetMapping("/getChartBar")
+    public R getChartBarData(){
+        HashMap<String,Integer> map = salaryService.getCharBarData();
+        return R.ok().put("salaryData",map);
+    }
+
+
+//    查询员工和工资对应的信息分页
+    @GetMapping("/formList")
+    public R getSalaryFormList(@RequestParam Map<String, Object> params){
+        PageUtils page = salaryService.getSalaryFormList(params);
+        return R.ok().put("page",page);
+    }
+
 //    通过eid查询员工工资
     @RequestMapping("/salaryEid/{eid}")
     public R getSalaryByEid(@PathVariable("eid") Long eid){
@@ -39,8 +55,6 @@ public class SalaryController {
         PageUtils page = salaryService.queryPage(params);
         return R.ok().put("page", page);
     }
-
-
 
     /**
      * 信息
@@ -67,7 +81,6 @@ public class SalaryController {
     @RequestMapping("/update")
     public R update(@RequestBody SalaryEntity salary){
 		salaryService.updateById(salary);
-
         return R.ok();
     }
 

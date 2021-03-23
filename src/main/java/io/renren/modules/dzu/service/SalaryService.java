@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.dzu.entity.SalaryEntity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -19,5 +20,9 @@ public interface SalaryService extends IService<SalaryEntity> {
 
 
     SalaryEntity getSalaryByid(Long eid);
+
+    HashMap<String, Integer> getCharBarData();
+
+    PageUtils getSalaryFormList(Map<String, Object> params);
 }
 

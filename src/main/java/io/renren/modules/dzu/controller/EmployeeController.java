@@ -28,11 +28,11 @@ public class EmployeeController extends AbstractController {
     @Autowired
     private EmployeeService employeeService;
 
-// 获取主页图一参数
+// 通过学校分类 得到员工人数
     @GetMapping("/chartLine")
     public R getChartLineData(){
-        HashMap<String,Integer> list = employeeService.getChartLineData();
-        return R.ok().put("data",list);
+        HashMap<String,Integer> map = employeeService.getChartLineData();
+        return R.ok().put("data",map);
     }
 
 

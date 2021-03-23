@@ -18,7 +18,6 @@ import java.util.Date;
 @TableName("dzu_joblevel")
 public class JoblevelEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 *
 	 */

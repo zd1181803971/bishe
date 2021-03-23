@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.SalaryDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.SalaryEntity" id="salaryMap">
         <result property="id" column="id"/>
         <result property="eid" column="eid"/>
@@ -21,6 +21,23 @@
         <result property="accumulationfundper" column="accumulationFundPer"/>
         <result property="name" column="name"/>
     </resultMap>
+
+    <select id="getSalayFormList" resultType="io.renren.modules.dzu.entity.form.SalaryForm" parameterType="string">
+        select s.id,
+        e.name,
+        e.jobNumber,
+        s.basicSalary,
+        s.bonus,
+        s.lunchSalary,
+        s.trafficSalary,
+        s.allSalary
+        from dzu_employee e,
+        dzu_salary s
+        where s.eid = e.id
+        <if test="name!=null and name!=''">
+            and e.name like concat('%',#{name},'%')
+        </if>
+    </select>
 
 
 </mapper>
