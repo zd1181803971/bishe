@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.LeaveDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.LeaveEntity" id="leaveMap">
         <result property="id" column="id"/>
         <result property="eid" column="eid"/>
@@ -14,5 +14,21 @@
         <result property="message" column="message"/>
     </resultMap>
 
-
+    <select id="getLeaveFormList" resultType="io.renren.modules.dzu.entity.form.LeaveForm" parameterType="string">
+        select
+        l.id,
+        e.name,
+        e.jobNumber,
+        l.startTime,
+        l.endTime,
+        l.reason,
+        l.status,
+        l.message
+        from dzu_employee e,
+        dzu_leave l
+        where l.eid = e.id
+        <if test="name!=null and name!=''">
+            and e.name like concat('%',#{name},'%')
+        </if>
+    </select>
 </mapper>

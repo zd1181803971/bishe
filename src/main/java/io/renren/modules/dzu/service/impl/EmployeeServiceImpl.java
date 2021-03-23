@@ -7,8 +7,11 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.EmployeeDao;
 import io.renren.modules.dzu.entity.EmployeeEntity;
+import io.renren.modules.dzu.entity.form.EmployeeForm;
+import io.renren.modules.dzu.entity.form.SalaryForm;
 import io.renren.modules.dzu.service.EmployeeService;
 import org.apache.commons.lang.StringUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -19,6 +22,21 @@ import java.util.Map;
 
 @Service("employeeService")
 public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity> implements EmployeeService {
+    @Autowired
+    EmployeeDao employeeDao;
+
+    @Override
+    public PageUtils getEmpFormList(Map<String, Object> map) {
+        List<EmployeeForm> list;
+        if (map.get("name")!=null){
+            list = employeeDao.getEmpFormList(map.get("name").toString());
+        }else {
+            list = employeeDao.getEmpFormList(null);
+        }
+        IPage<EmployeeForm> page = new Query<EmployeeForm>().getPage(map);
+        return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
+    }
+
 
     @Override
     public EmployeeEntity getEmployeeByjobNumber(String jobnumber) {
@@ -64,6 +82,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         }
         return hashMap;
     }
+
+
 
 
     @Override

@@ -16,5 +16,7 @@ import java.util.Map;
 public interface LeaveService extends IService<LeaveEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getLeaveFormList(Map<String, Object> params);
 }
 

@@ -2,7 +2,6 @@ package io.renren.modules.dzu.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
-import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -26,7 +25,7 @@ public class LeaveEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 * 用户id
+	 * 员工id
 	 */
 	private Long eid;
 	/**

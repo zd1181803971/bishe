@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.EmployeeDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.EmployeeEntity" id="employeeMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
@@ -26,14 +26,51 @@
         <result property="school" column="school"/>
         <result property="begindate" column="beginDate"/>
         <result property="workstate" column="workState"/>
-        <result property="workid" column="workID"/>
-        <result property="contractterm" column="contractTerm"/>
-        <result property="conversiontime" column="conversionTime"/>
         <result property="notworkdate" column="notWorkDate"/>
         <result property="begincontract" column="beginContract"/>
         <result property="endcontract" column="endContract"/>
-        <result property="workage" column="workAge"/>
     </resultMap>
+    <select id="getEmpFormList" resultType="io.renren.modules.dzu.entity.form.EmployeeForm" parameterType="string">
+        select e.id,
+               e.name,
+               e.jobNumber,
+               e.gender,
+               e.birthday,
+               e.idCard,
+               e.wedlock,
+               n.name nation,
+               e.nativePlace,
+               o.name politic,
+               e.email,
+               e.phone,
+               e.address,
+               d.name department,
+               j.name jobLevel,
+               p.name pos,
+               e.engageForm,
+               e.tiptopDegree,
+               e.specialty,
+               e.school,
+               e.beginDate,
+               e.workState,
+               e.notWorkDate,
+               e.beginContract,
+               e.endContract
+        from dzu_employee e,
+             dzu_nation n,
+             dzu_oliticsstatus o,
+             dzu_department d,
+             dzu_joblevel j,
+             dzu_position p
+        where e.nationId = n.id
+          and e.politicId = o.id
+          and e.departmentId = d.id
+          and e.jobLevelId = j.id
+          and e.posId = p.id
+        <if test="name!=null and name!=''">
+            and e.name like concat('%',#{name},'%')
+        </if>
+    </select>
 
 
 </mapper>

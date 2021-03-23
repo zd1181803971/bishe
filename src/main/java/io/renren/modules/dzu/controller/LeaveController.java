@@ -26,6 +26,12 @@ public class LeaveController {
     private LeaveService leaveService;
 
 
+
+     @GetMapping("/leaveFormList")
+     public R getLeaveFormList(@RequestParam Map<String, Object> params){
+         PageUtils page =leaveService.getLeaveFormList(params);
+         return R.ok().put("page", page);
+     }
     /**
      * 列表
      */
@@ -34,7 +40,6 @@ public class LeaveController {
         PageUtils page = leaveService.queryPage(params);
         return R.ok().put("page", page);
     }
-
 
     /**
      * 信息

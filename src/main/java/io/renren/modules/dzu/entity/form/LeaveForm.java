@@ -4,18 +4,19 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
+import java.util.Date;
+
 /**
- * @Classname SalaryForm
+ * @Classname LeaveForm
  * @Description TODO
- * @Date 2021/3/22 16:20
- * @Created by ZhaoDong
+ * @Date 2021/3/23 20:46
+ * @Created by Administrator
  */
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
-public class SalaryForm {
-
-//    薪资id
+public class LeaveForm {
+    //    请假id
     private Long id;
 
     /**
@@ -26,24 +27,26 @@ public class SalaryForm {
     员工工号
      */
     private String jobnumber;
+
     /**
-     * 基本工资
+     * 开始时间
      */
-    private Double basicsalary;
+
+    private Date starttime;
     /**
-     * 奖金
+     * 结束时间
      */
-    private Double bonus;
+    private Date endtime;
     /**
-     * 午餐补助
+     * 请假原因
      */
-    private Double lunchsalary;
+    private String reason;
     /**
-     * 交通补助
+     * 请假状态 0未通过 1通过
      */
-    private Double trafficsalary;
+    private Integer status;
     /**
-     * 应发工资
+     * 备注信息
      */
-    private Double allsalary;
+    private String message;
 }

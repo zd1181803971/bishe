@@ -28,6 +28,14 @@ public class EmployeeController extends AbstractController {
     @Autowired
     private EmployeeService employeeService;
 
+//    获取员工信息表单
+    @GetMapping("/getEmpFormList")
+    public R getEmpFormList(@RequestParam Map<String, Object> map){
+        PageUtils page = employeeService.getEmpFormList(map);
+        return R.ok().put("page",page);
+    }
+
+
 // 通过学校分类 得到员工人数
     @GetMapping("/chartLine")
     public R getChartLineData(){
@@ -89,7 +97,6 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EmployeeEntity employee){
-        System.out.println(employee);
 		employeeService.updateById(employee);
 
         return R.ok();

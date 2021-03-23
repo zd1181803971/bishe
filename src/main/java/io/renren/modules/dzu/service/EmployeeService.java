@@ -25,5 +25,7 @@ public interface EmployeeService extends IService<EmployeeEntity> {
     List<EmployeeEntity> getEmpByIds(Map<String, Object> map);
 
     HashMap<String, Integer> getChartLineData();
+
+    PageUtils getEmpFormList(Map<String, Object> map);
 }
 

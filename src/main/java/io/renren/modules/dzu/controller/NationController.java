@@ -8,6 +8,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.List;
 import java.util.Map;
 
 
@@ -31,8 +32,17 @@ public class NationController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = nationService.queryPage(params);
-
         return R.ok().put("page", page);
+    }
+
+    /**
+     * 不传参数就返回所有的数据
+     *
+     */
+    @GetMapping("/listAll")
+    public R listAllNation(){
+        List<NationEntity> list = nationService.list();
+        return R.ok().put("page", list);
     }
 
 

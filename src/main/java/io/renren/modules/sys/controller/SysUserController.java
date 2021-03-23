@@ -110,10 +110,8 @@ public class SysUserController extends AbstractController {
 	@RequiresPermissions("sys:user:save")
 	public R save(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, AddGroup.class);
-
 		user.setCreateUserId(getUserId());
 		sysUserService.saveUser(user);
-
 		return R.ok();
 	}
 

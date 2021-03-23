@@ -9,17 +9,21 @@ import io.renren.modules.dzu.dao.EmployeeDao;
 import io.renren.modules.dzu.dao.LeaveDao;
 import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.LeaveEntity;
+import io.renren.modules.dzu.entity.form.LeaveForm;
 import io.renren.modules.dzu.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
 import java.util.Map;
 
 
 @Service("leaveService")
 public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> implements LeaveService {
     @Autowired
-    private EmployeeServiceImpl employeeService;
+    LeaveDao leaveDao;
+    @Autowired
+    EmployeeServiceImpl employeeService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -28,6 +32,19 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
                 getLeaveByEid(params)
         );
         return new PageUtils(page);
+    }
+
+    @Override
+    public PageUtils getLeaveFormList(Map<String, Object> params) {
+        List<LeaveForm> list;
+        if (params.get("name") != null){
+            list = leaveDao.getLeaveFormList(params.get("name").toString());
+        }else {
+            list = leaveDao.getLeaveFormList(null);
+        }
+        IPage<LeaveForm> page = new Query<LeaveForm>().getPage(params);
+
+        return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
     }
 
     public QueryWrapper<LeaveEntity> getLeaveByEid(Map<String, Object> params) {
@@ -48,12 +65,7 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
         return leaveEntityQueryWrapper.orderByAsc("status");
     }
 }
-//        if (params.get("name") != null){
-//            String name = (String) params.get("name");
-//            return new QueryWrapper<LeaveEntity>().eq("eid",eid).orderByAsc("status");
-//        }else {
-//            return new QueryWrapper<LeaveEntity>().orderByAsc("status");
-//        }
+
 
 
 
