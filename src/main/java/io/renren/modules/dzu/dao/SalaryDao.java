@@ -18,5 +18,5 @@ import java.util.List;
 public interface SalaryDao extends BaseMapper<SalaryEntity> {
 
 
-    List<SalaryForm> getSalayFormList(String name);
+    List<SalaryForm> getSalayFormList(String name,String jobNumber);
 }

@@ -1,7 +1,9 @@
 package io.renren.modules.dzu.dao;
 
-import io.renren.modules.dzu.entity.EmployeeEntity;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import io.renren.modules.dzu.entity.EmployeeEntity;
+import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
+import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
 import io.renren.modules.dzu.entity.form.EmployeeForm;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -17,5 +19,10 @@ import java.util.List;
 @Mapper
 public interface EmployeeDao extends BaseMapper<EmployeeEntity> {
 
-    List<EmployeeForm> getEmpFormList(String name);
+    List<EmployeeForm> getEmpFormList(Long id,String name,String jobNumber);
+
+    EmpIdNameDto getIdNameByJob(String jobNumber);
+
+    List<DeptAndEmpCountDto> getDeptAndEmpCount();
+
 }

@@ -25,8 +25,7 @@ import java.util.Map;
 public class SalaryController {
     @Autowired
     private SalaryService salaryService;
-
-//公司所有员工的工资统计  首页图二
+    //公司所有员工的工资统计  首页图二
     @GetMapping("/getChartBar")
     public R getChartBarData(){
         HashMap<String,Integer> map = salaryService.getCharBarData();
@@ -34,7 +33,7 @@ public class SalaryController {
     }
 
 
-//    查询员工和工资对应的信息分页
+//    查询所有的员工薪资Form
     @GetMapping("/formList")
     public R getSalaryFormList(@RequestParam Map<String, Object> params){
         PageUtils page = salaryService.getSalaryFormList(params);

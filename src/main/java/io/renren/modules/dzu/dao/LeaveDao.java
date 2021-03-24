@@ -18,4 +18,6 @@ import java.util.List;
 public interface LeaveDao extends BaseMapper<LeaveEntity> {
 
     List<LeaveForm> getLeaveFormList(String name);
+
+    List<LeaveEntity> getLeaveListByJob(String jobNumber);
 }

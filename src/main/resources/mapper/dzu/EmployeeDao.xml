@@ -32,44 +32,64 @@
     </resultMap>
     <select id="getEmpFormList" resultType="io.renren.modules.dzu.entity.form.EmployeeForm" parameterType="string">
         select e.id,
-               e.name,
-               e.jobNumber,
-               e.gender,
-               e.birthday,
-               e.idCard,
-               e.wedlock,
-               n.name nation,
-               e.nativePlace,
-               o.name politic,
-               e.email,
-               e.phone,
-               e.address,
-               d.name department,
-               j.name jobLevel,
-               p.name pos,
-               e.engageForm,
-               e.tiptopDegree,
-               e.specialty,
-               e.school,
-               e.beginDate,
-               e.workState,
-               e.notWorkDate,
-               e.beginContract,
-               e.endContract
+        e.name,
+        e.jobNumber,
+        e.gender,
+        e.birthday,
+        e.idCard,
+        e.wedlock,
+        n.name nation,
+        e.nativePlace,
+        o.name politic,
+        e.email,
+        e.phone,
+        e.address,
+        d.name department,
+        j.name jobLevel,
+        p.name pos,
+        e.engageForm,
+        e.tiptopDegree,
+        e.specialty,
+        e.school,
+        e.beginDate,
+        e.workState,
+        e.notWorkDate,
+        e.beginContract,
+        e.endContract
         from dzu_employee e,
-             dzu_nation n,
-             dzu_oliticsstatus o,
-             dzu_department d,
-             dzu_joblevel j,
-             dzu_position p
+        dzu_nation n,
+        dzu_oliticsstatus o,
+        dzu_department d,
+        dzu_joblevel j,
+        dzu_position p
         where e.nationId = n.id
-          and e.politicId = o.id
-          and e.departmentId = d.id
-          and e.jobLevelId = j.id
-          and e.posId = p.id
+        and e.politicId = o.id
+        and e.departmentId = d.id
+        and e.jobLevelId = j.id
+        and e.posId = p.id
         <if test="name!=null and name!=''">
             and e.name like concat('%',#{name},'%')
         </if>
+        <if test="jobNumber!=null and jobNumber!=''">
+            and e.jobNumber = #{jobNumber}
+        </if>
+        <if test="id!=null and id!=''">
+            and e.id = #{id}
+        </if>
+    </select>
+
+
+    <select id="getIdNameByJob" resultType="io.renren.modules.dzu.entity.dto.EmpIdNameDto" parameterType="string">
+        select e.id, e.name
+        from dzu_employee e
+        where e.jobNumber = #{jobNumber}
+    </select>
+    <select id="getDeptAndEmpCount" resultType="io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto">
+        select  d.name `name`,count(*) `value`
+        from dzu_employee e,
+             dzu_department d
+        where e.departmentId = d.id
+        group by e.departmentId
     </select>
 
 

@@ -18,5 +18,7 @@ public interface LeaveService extends IService<LeaveEntity> {
     PageUtils queryPage(Map<String, Object> params);
 
     PageUtils getLeaveFormList(Map<String, Object> params);
+
+    PageUtils getLeaveListByJob(Map<String, Object> params);
 }
 

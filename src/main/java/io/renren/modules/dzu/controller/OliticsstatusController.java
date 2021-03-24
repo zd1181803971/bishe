@@ -28,15 +28,15 @@ public class OliticsstatusController {
     /**
      * 不传参数返回所有的数据
      */
-    @RequestMapping("/list")
-    public R list(){
+    @RequestMapping("/listAll")
+    public R listAll(){
         List<OliticsstatusEntity> list = oliticsstatusService.list();
         return R.ok().put("page", list);
     }
     /**
      * 列表
      */
-    @RequestMapping("/listAll")
+    @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = oliticsstatusService.queryPage(params);
         return R.ok().put("page", page);

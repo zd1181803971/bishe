@@ -25,6 +25,22 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
     @Autowired
     EmployeeServiceImpl employeeService;
 
+
+    @Override
+    public PageUtils getLeaveListByJob(Map<String, Object> params) {
+        String jobNumber = null;
+        if (params.get("jobNumber") != null) {
+            jobNumber = params.get("jobNumber").toString();
+            List<LeaveEntity> list = leaveDao.getLeaveListByJob(jobNumber);
+            IPage<LeaveEntity> page = new Query<LeaveEntity>().getPage(params);
+            return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
+        }else {
+            return null;
+        }
+
+
+    }
+
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<LeaveEntity> page = this.page(
@@ -37,15 +53,15 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
     @Override
     public PageUtils getLeaveFormList(Map<String, Object> params) {
         List<LeaveForm> list;
-        if (params.get("name") != null){
+        if (params.get("name") != null) {
             list = leaveDao.getLeaveFormList(params.get("name").toString());
-        }else {
+        } else {
             list = leaveDao.getLeaveFormList(null);
         }
         IPage<LeaveForm> page = new Query<LeaveForm>().getPage(params);
-
-        return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
+        return new PageUtils(list, (int) page.getTotal(), (int) page.getSize(), (int) page.getCurrent());
     }
+
 
     public QueryWrapper<LeaveEntity> getLeaveByEid(Map<String, Object> params) {
         QueryWrapper<LeaveEntity> leaveEntityQueryWrapper = new QueryWrapper<>();
@@ -55,11 +71,10 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
         } else if (params.get("name") != null && params.get("name").hashCode() == 0) {
             String name = (String) params.get("name");
             EmployeeDao baseMapper = employeeService.getBaseMapper();
-            EmployeeEntity employeeEntities = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>().eq("name",name));
+            EmployeeEntity employeeEntities = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>().eq("name", name));
             Long id = employeeEntities.getId();
             leaveEntityQueryWrapper.eq("eid", id);
-        }
-        else {
+        } else {
             return leaveEntityQueryWrapper.orderByAsc("status");
         }
         return leaveEntityQueryWrapper.orderByAsc("status");

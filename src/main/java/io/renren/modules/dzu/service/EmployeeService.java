@@ -3,6 +3,8 @@ package io.renren.modules.dzu.service;
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.dzu.entity.EmployeeEntity;
+import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
+import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
 
 import java.util.HashMap;
 import java.util.List;
@@ -27,5 +29,9 @@ public interface EmployeeService extends IService<EmployeeEntity> {
     HashMap<String, Integer> getChartLineData();
 
     PageUtils getEmpFormList(Map<String, Object> map);
+
+    EmpIdNameDto getIdNameByJob(String jobNumber);
+
+    List<DeptAndEmpCountDto> getDeptAndEmpCount();
 }
 

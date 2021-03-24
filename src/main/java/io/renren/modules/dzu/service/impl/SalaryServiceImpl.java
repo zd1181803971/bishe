@@ -74,11 +74,15 @@ public class SalaryServiceImpl extends ServiceImpl<SalaryDao, SalaryEntity> impl
     @Override
     public PageUtils getSalaryFormList(Map<String, Object> params) {
         List<SalaryForm> list;
+        String name = null;
+        String jobNumber = null;
         if (params.get("name") != null){
-            list = salaryDao.getSalayFormList(params.get("name").toString());
-        }else {
-            list = salaryDao.getSalayFormList(null);
+            name = params.get("name").toString();
         }
+        if (params.get("jobNumber") != null){
+            jobNumber = params.get("jobNumber").toString();
+        }
+        list = salaryDao.getSalayFormList(name,jobNumber);
         IPage<SalaryForm> page = new Query<SalaryForm>().getPage(params);
         return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
     }

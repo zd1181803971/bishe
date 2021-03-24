@@ -30,5 +30,11 @@
         <if test="name!=null and name!=''">
             and e.name like concat('%',#{name},'%')
         </if>
+        order by l.status
+    </select>
+    <select id="getLeaveListByJob" resultType="io.renren.modules.dzu.entity.LeaveEntity" parameterType="string">
+        select id,eid,startTime,endTime,reason,status,message
+        from dzu_leave
+        where eid = (select e.id from dzu_employee e where e.jobNumber = #{jobNumber})
     </select>
 </mapper>

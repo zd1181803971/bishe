@@ -7,8 +7,9 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.EmployeeDao;
 import io.renren.modules.dzu.entity.EmployeeEntity;
+import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
+import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
 import io.renren.modules.dzu.entity.form.EmployeeForm;
-import io.renren.modules.dzu.entity.form.SalaryForm;
 import io.renren.modules.dzu.service.EmployeeService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,17 +26,48 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
     @Autowired
     EmployeeDao employeeDao;
 
+
+    @Override
+    public List<DeptAndEmpCountDto> getDeptAndEmpCount() {
+        List<DeptAndEmpCountDto> deptAndEmpCount = employeeDao.getDeptAndEmpCount();
+        return deptAndEmpCount;
+    }
+
+    @Override
+    public EmpIdNameDto getIdNameByJob(String jobNumber) {
+        if (StringUtils.isNotEmpty(jobNumber)){
+            return employeeDao.getIdNameByJob(jobNumber);
+        }else {
+            return null;
+        }
+    }
+
+
+
     @Override
     public PageUtils getEmpFormList(Map<String, Object> map) {
+        Long id = null;
+        String jobNumber = null;
+        String name = null;
         List<EmployeeForm> list;
-        if (map.get("name")!=null){
-            list = employeeDao.getEmpFormList(map.get("name").toString());
-        }else {
-            list = employeeDao.getEmpFormList(null);
+//        获取前端发送的条件参数
+        if (map.get("id") != null){
+            id = (Long) map.get("id");
         }
+        if (map.get("jobNumber") != null) {
+            jobNumber = map.get("jobNumber").toString();
+        }
+        if (map.get("name") != null) {
+            name = map.get("name").toString();
+        }
+       list = employeeDao.getEmpFormList(id,name,jobNumber);
+       System.out.println(list.toString());
+//        分页
         IPage<EmployeeForm> page = new Query<EmployeeForm>().getPage(map);
-        return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
+        return new PageUtils(list, (int) page.getTotal(), (int) page.getSize(), (int) page.getCurrent());
     }
+
+
 
 
     @Override
@@ -47,19 +79,19 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
     @Override
     public List<EmployeeEntity> getEmpByIds(Map<String, Object> map) {
         ArrayList<Integer> integers = new ArrayList<>();
-        if (map.get("ids") != null){
+        if (map.get("ids") != null) {
             String ids = (String) map.get("ids");
             String[] split = ids.split(",");
-            for (String s : split){
-                if (StringUtils.isNotEmpty(s)){
+            for (String s : split) {
+                if (StringUtils.isNotEmpty(s)) {
                     integers.add(Integer.parseInt(s));
                 }
             }
 
         }
-        if (integers.size() != 0){
+        if (integers.size() != 0) {
             return baseMapper.selectBatchIds(integers);
-        }else {
+        } else {
             return null;
         }
     }
@@ -71,19 +103,17 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         List<EmployeeEntity> entityList = baseMapper.selectList(null);
         int j = 1;
         for (int i = 0; i < entityList.size(); i++) {
-            if (!arrayList.contains(entityList.get(i).getSchool())){
+            if (!arrayList.contains(entityList.get(i).getSchool())) {
                 arrayList.add(entityList.get(i).getSchool());
-                hashMap.put(entityList.get(i).getSchool(),j);
-            }else {
+                hashMap.put(entityList.get(i).getSchool(), j);
+            } else {
                 Integer integer = hashMap.get(entityList.get(i).getSchool());
                 integer++;
-                hashMap.put(entityList.get(i).getSchool(),integer);
+                hashMap.put(entityList.get(i).getSchool(), integer);
             }
         }
         return hashMap;
     }
-
-
 
 
     @Override
@@ -95,10 +125,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         return new PageUtils(page);
     }
 
-    public QueryWrapper<EmployeeEntity> getEmployeeByName(Map<String, Object> params){
-        if (StringUtils.isNotEmpty((String) params.get("name"))){
-            return new QueryWrapper<EmployeeEntity>().eq("name",params.get("name"));
-        }else {
+    public QueryWrapper<EmployeeEntity> getEmployeeByName(Map<String, Object> params) {
+        if (StringUtils.isNotEmpty((String) params.get("name"))) {
+            return new QueryWrapper<EmployeeEntity>().eq("name", params.get("name"));
+        } else {
             return new QueryWrapper<EmployeeEntity>();
         }
     }

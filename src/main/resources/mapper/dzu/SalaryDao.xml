@@ -12,14 +12,6 @@
         <result property="lunchsalary" column="lunchSalary"/>
         <result property="trafficsalary" column="trafficSalary"/>
         <result property="allsalary" column="allSalary"/>
-        <result property="pensionbase" column="pensionBase"/>
-        <result property="pensionper" column="pensionPer"/>
-        <result property="createdate" column="createDate"/>
-        <result property="medicalbase" column="medicalBase"/>
-        <result property="medicalper" column="medicalPer"/>
-        <result property="accumulationfundbase" column="accumulationFundBase"/>
-        <result property="accumulationfundper" column="accumulationFundPer"/>
-        <result property="name" column="name"/>
     </resultMap>
 
     <select id="getSalayFormList" resultType="io.renren.modules.dzu.entity.form.SalaryForm" parameterType="string">
@@ -36,6 +28,9 @@
         where s.eid = e.id
         <if test="name!=null and name!=''">
             and e.name like concat('%',#{name},'%')
+        </if>
+        <if test="jobNumber!=null and jobNumber!=''">
+            and e.jobNumber = #{jobNumber}
         </if>
     </select>
 

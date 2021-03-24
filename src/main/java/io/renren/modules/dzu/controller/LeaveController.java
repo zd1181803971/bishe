@@ -26,7 +26,16 @@ public class LeaveController {
     private LeaveService leaveService;
 
 
+//    通过员工工号查询员工的所有请假记录
+    @GetMapping("/getLeaveListByjobNumber")
+    public R getLeaveListByJob(@RequestParam Map<String, Object> params){
+        PageUtils page = leaveService.getLeaveListByJob(params);
+        return R.ok().put("page",page);
+    }
 
+
+
+//    获取员工请假Form
      @GetMapping("/leaveFormList")
      public R getLeaveFormList(@RequestParam Map<String, Object> params){
          PageUtils page =leaveService.getLeaveFormList(params);

@@ -2,6 +2,7 @@ package io.renren.modules.dzu.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -39,6 +40,7 @@ public class EmployeeEntity implements Serializable {
 	/**
 	 * 出生日期
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date birthday;
 	/**
 	 * 身份证号
@@ -103,38 +105,29 @@ public class EmployeeEntity implements Serializable {
 	/**
 	 * 入职日期
 	 */
+
+
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date begindate;
 	/**
 	 * 在职状态
 	 */
 	private String workstate;
-	/**
-	 * 工号
-	 */
-//	private String workid;
-	/**
-	 * 合同期限
-	 */
-//	private Double contractterm;
-	/**
-	 * 转正日期
-	 */
-//	private Date conversiontime;
+
 	/**
 	 * 离职日期
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date notworkdate;
 	/**
 	 * 合同起始日期
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date begincontract;
 	/**
 	 * 合同终止日期
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date endcontract;
-	/**
-	 * 工龄
-	 */
-//	private Long workage;
 
 }
