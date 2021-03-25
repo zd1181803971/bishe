@@ -27,13 +27,19 @@ public class DepartmentController {
     private DepartmentService departmentService;
 
 
+//    得到部门和上级部门以及对应的人数
+    @GetMapping("/getDeptForm")
+    public R getDeptForm(@RequestParam Map<String, Object> params){
+        PageUtils page = departmentService.getDeptForm(params);
+        return R.ok().put("deptForm",page);
+    }
+
     /**
-     * 列表
+     * 所有的
      */
     @RequestMapping("/listAll")
     public R listAll(){
         List<DepartmentEntity> list = departmentService.list();
-
         return R.ok().put("page", list);
     }
     /**
@@ -42,7 +48,6 @@ public class DepartmentController {
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = departmentService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 

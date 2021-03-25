@@ -16,5 +16,7 @@ import java.util.Map;
 public interface NationService extends IService<NationEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getNationForm(Map<String, Object> params);
 }
 

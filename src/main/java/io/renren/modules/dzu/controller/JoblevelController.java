@@ -27,6 +27,14 @@ public class JoblevelController {
     private JoblevelService joblevelService;
 
 
+//    获取职位Form
+    @GetMapping("/getJobLeaveForm")
+    public R getJobLeaveForm(@RequestParam Map<String, Object> params){
+        PageUtils page = joblevelService.getJobLeaveForm(params);
+        return R.ok().put("JobleaveForm",page);
+    }
+
+
     /**
      * 列表
      */

@@ -3,10 +3,13 @@ package io.renren.modules.dzu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.SalaryDao;
 import io.renren.modules.dzu.entity.SalaryEntity;
+import io.renren.modules.dzu.entity.form.DeptForm;
 import io.renren.modules.dzu.entity.form.SalaryForm;
 import io.renren.modules.dzu.service.SalaryService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -73,18 +76,22 @@ public class SalaryServiceImpl extends ServiceImpl<SalaryDao, SalaryEntity> impl
 
     @Override
     public PageUtils getSalaryFormList(Map<String, Object> params) {
-        List<SalaryForm> list;
         String name = null;
         String jobNumber = null;
-        if (params.get("name") != null){
+        if (params.get("name") != null && !params.get("name").equals("")){
             name = params.get("name").toString();
         }
-        if (params.get("jobNumber") != null){
+        if (params.get("jobNumber") != null && !params.get("jobNumber").equals("")){
             jobNumber = params.get("jobNumber").toString();
         }
-        list = salaryDao.getSalayFormList(name,jobNumber);
-        IPage<SalaryForm> page = new Query<SalaryForm>().getPage(params);
-        return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
+        IPage<DeptForm> page = new Query<DeptForm>().getPage(params);
+        PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
+        List<SalaryForm> salayFormList = salaryDao.getSalayFormList(name, jobNumber);
+        PageInfo<SalaryForm> salaryFormPageInfo = new PageInfo<>(salayFormList);
+        return new PageUtils(salaryFormPageInfo.getList(),
+                (int) salaryFormPageInfo.getTotal(),
+                salaryFormPageInfo.getSize(),
+                salaryFormPageInfo.getPageNum());
     }
 
     public QueryWrapper<SalaryEntity> getQueryWrapper(Map<String, Object> params){

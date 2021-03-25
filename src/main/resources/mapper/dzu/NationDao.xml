@@ -3,11 +3,26 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.NationDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.NationEntity" id="nationMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
     </resultMap>
+    <select id="getNationFormList" resultType="io.renren.modules.dzu.entity.form.NationForm" parameterType="string">
+        select n.id `id`, n.name `name` , e.count `count`
+        from (select `id`, `name` from dzu_nation
+        where 1 = 1
+        <if test="name!=null and name!=''">
+            and `name` = #{name}
+        </if>
+        ) n
+        left join (
+        select count(nationId) `count`,nationId
+        from dzu_employee
+        group by nationId
+        ) e
+        on n.id = e.nationId
+    </select>
 
 
 </mapper>

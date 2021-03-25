@@ -16,5 +16,7 @@ import java.util.Map;
 public interface JoblevelService extends IService<JoblevelEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getJobLeaveForm(Map<String, Object> params);
 }
 

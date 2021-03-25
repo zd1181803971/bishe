@@ -16,5 +16,7 @@ import java.util.Map;
 public interface OliticsstatusService extends IService<OliticsstatusEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getOliticsstatusForm(Map<String, Object> params);
 }
 

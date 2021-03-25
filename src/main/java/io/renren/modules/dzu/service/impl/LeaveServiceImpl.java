@@ -3,12 +3,15 @@ package io.renren.modules.dzu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.EmployeeDao;
 import io.renren.modules.dzu.dao.LeaveDao;
 import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.LeaveEntity;
+import io.renren.modules.dzu.entity.form.DeptForm;
 import io.renren.modules.dzu.entity.form.LeaveForm;
 import io.renren.modules.dzu.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -29,16 +32,18 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
     @Override
     public PageUtils getLeaveListByJob(Map<String, Object> params) {
         String jobNumber = null;
-        if (params.get("jobNumber") != null) {
+        if (params.get("jobNumber") != null && !params.get("jobNumber").equals("")) {
             jobNumber = params.get("jobNumber").toString();
-            List<LeaveEntity> list = leaveDao.getLeaveListByJob(jobNumber);
-            IPage<LeaveEntity> page = new Query<LeaveEntity>().getPage(params);
-            return new PageUtils(list,(int)page.getTotal(),(int)page.getSize(),(int)page.getCurrent());
-        }else {
-            return null;
+
         }
-
-
+        IPage<DeptForm> page = new Query<DeptForm>().getPage(params);
+        PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
+        List<LeaveEntity> leaveListByJob = leaveDao.getLeaveListByJob(jobNumber);
+        PageInfo<LeaveEntity> leaveEntityPageInfo = new PageInfo<>(leaveListByJob);
+        return new PageUtils(leaveEntityPageInfo.getList(),
+                (int) leaveEntityPageInfo.getTotal(),
+                leaveEntityPageInfo.getSize(),
+                leaveEntityPageInfo.getPageNum());
     }
 
     @Override

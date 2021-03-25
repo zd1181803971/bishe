@@ -3,15 +3,31 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.DepartmentDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.DepartmentEntity" id="departmentMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="parentid" column="parentId"/>
-        <result property="deppath" column="depPath"/>
-        <result property="enabled" column="enabled"/>
-        <result property="isparent" column="isParent"/>
     </resultMap>
+    <select id="getDeptFormList" resultType="io.renren.modules.dzu.entity.form.DeptForm" parameterType="string">
+
+        select d.id id, d.name `name`, d.parent `parent`, c.value `value`
+        from (select b.id `id`, b.name `name`, a.name `parent`
+              from dzu_department a,
+                   dzu_department b
+              where a.id = b.parentId
+              <if test="deptName!=null and deptName!=''">
+                 and `name` = #{deptName}
+               </if>
+                ) d
+                 left join
+             (select d.id `id`, count(*) `value`
+              from dzu_employee e,
+                   dzu_department d
+              where e.departmentId = d.id
+              group by e.departmentId) c
+             on c.id = d.id
+    </select>
 
 
 </mapper>

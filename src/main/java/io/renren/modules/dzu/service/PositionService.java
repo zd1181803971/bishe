@@ -16,5 +16,7 @@ import java.util.Map;
 public interface PositionService extends IService<PositionEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getPositionForm(Map<String, Object> params);
 }
 

@@ -3,13 +3,30 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.PositionDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.PositionEntity" id="positionMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
         <result property="createdate" column="createDate"/>
         <result property="enabled" column="enabled"/>
     </resultMap>
+    <select id="getPositionFormList" resultType="io.renren.modules.dzu.entity.form.PositionForm">
+        select p.`id` id, p.name `name`, e.count `count`
+        from (select `id`, `name`
+        from dzu_position
+        where 1 = 1
+        <if test="name!=null and name!=''">
+            and `name` = #{name}
+        </if>
+        ) p
+        left join (
+        select count(posId) count,posId
+        from dzu_employee
+        group by posId
+        ) e
+        on p.id = e.posId
+
+    </select>
 
 
 </mapper>

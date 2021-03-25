@@ -3,14 +3,28 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.JoblevelDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.JoblevelEntity" id="joblevelMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="titlelevel" column="titleLevel"/>
-        <result property="createdate" column="createDate"/>
-        <result property="enabled" column="enabled"/>
     </resultMap>
+    <select id="getJobLeaveFormList" resultType="io.renren.modules.dzu.entity.form.JobleaveForm" parameterType="string">
+        select j.id `id`, j.name `name`, e.count `count`
+        from (
+        select `id`, `name`
+        from dzu_joblevel
+        where 1 = 1
+        <if test="name!=null and name!=''">
+            and `name` = #{name}
+        </if>
+        ) j
+        left join (
+        select count(jobLevelId) `count`,jobLevelId
+        from dzu_employee
+        group by jobLevelId
+        ) e
+        on j.id = e.jobLevelId
+    </select>
 
 
 </mapper>

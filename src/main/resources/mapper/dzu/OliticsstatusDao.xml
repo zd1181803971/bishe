@@ -3,11 +3,28 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.OliticsstatusDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.OliticsstatusEntity" id="oliticsstatusMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
     </resultMap>
+    <select id="getOliticsstatusFormList" resultType="io.renren.modules.dzu.entity.form.OliticsstatusForm"
+            parameterType="string">
+        select o.id `id`, o.name `name`, e.count `count`
+        from (select `id`, `name`
+        from dzu_oliticsstatus
+        where 1 = 1
+        <if test="name!=null and name!=''">
+            and `name` = #{name}
+        </if>
+        ) o
+        left join (
+        select count(politicId) `count`,politicId
+        from dzu_employee
+        group by politicId
+        ) e
+        on o.id = e.politicId
+    </select>
 
 
 </mapper>

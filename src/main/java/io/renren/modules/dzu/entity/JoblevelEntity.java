@@ -5,7 +5,6 @@ import com.baomidou.mybatisplus.annotation.TableName;
 import lombok.Data;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 员工职位等级表
@@ -27,17 +26,4 @@ public class JoblevelEntity implements Serializable {
 	 * 职称名称
 	 */
 	private String name;
-	/**
-	 *
-	 */
-	private String titlelevel;
-	/**
-	 *
-	 */
-	private Date createdate;
-	/**
-	 *
-	 */
-	private Integer enabled;
-
 }

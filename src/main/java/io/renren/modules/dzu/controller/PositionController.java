@@ -26,8 +26,15 @@ public class PositionController {
     @Autowired
     private PositionService positionService;
 
+//    获取员工职位表单
+    @GetMapping("/getPositionForm")
+    public R getPositionForm(@RequestParam Map<String, Object> params){
+       PageUtils page =  positionService.getPositionForm(params);
+        return R.ok().put("PositionForm",page);
+    }
+
     /**
-     * 列表
+     * 获取所有的
      */
     @RequestMapping("/listAll")
     public R listAll(){

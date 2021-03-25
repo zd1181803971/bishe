@@ -16,5 +16,7 @@ import java.util.Map;
 public interface DepartmentService extends IService<DepartmentEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
+    PageUtils getDeptForm(Map<String, Object> params);
 }
 

@@ -3,12 +3,15 @@ package io.renren.modules.dzu.service.impl;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.EmployeeDao;
 import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
 import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
+import io.renren.modules.dzu.entity.form.DeptForm;
 import io.renren.modules.dzu.entity.form.EmployeeForm;
 import io.renren.modules.dzu.service.EmployeeService;
 import org.apache.commons.lang.StringUtils;
@@ -49,22 +52,25 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         Long id = null;
         String jobNumber = null;
         String name = null;
-        List<EmployeeForm> list;
 //        获取前端发送的条件参数
-        if (map.get("id") != null){
+        if (map.get("id") != null && !map.get("id").equals("")){
             id = (Long) map.get("id");
         }
-        if (map.get("jobNumber") != null) {
+        if (map.get("jobNumber") != null && !map.get("jobNumber").equals("")) {
             jobNumber = map.get("jobNumber").toString();
         }
-        if (map.get("name") != null) {
+        if (map.get("name") != null && !map.get("name").equals("")) {
             name = map.get("name").toString();
         }
-       list = employeeDao.getEmpFormList(id,name,jobNumber);
-       System.out.println(list.toString());
 //        分页
-        IPage<EmployeeForm> page = new Query<EmployeeForm>().getPage(map);
-        return new PageUtils(list, (int) page.getTotal(), (int) page.getSize(), (int) page.getCurrent());
+        IPage<DeptForm> page = new Query<DeptForm>().getPage(map);
+        PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
+        List<EmployeeForm> empFormList = employeeDao.getEmpFormList(id, name, jobNumber);
+        PageInfo<EmployeeForm> employeeFormPageInfo = new PageInfo<>(empFormList);
+        return new PageUtils(employeeFormPageInfo.getList(),
+                (int) employeeFormPageInfo.getTotal(),
+                employeeFormPageInfo.getSize(),
+                employeeFormPageInfo.getPageNum());
     }
 
 

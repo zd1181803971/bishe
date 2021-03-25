@@ -26,6 +26,12 @@ public class NationController {
     @Autowired
     private NationService nationService;
 
+//    获取民族以及人数NationForm表单
+    @GetMapping("/getNationForm")
+    public R getNationForm(@RequestParam Map<String, Object> params){
+        PageUtils page = nationService.getNationForm(params);
+        return R.ok().put("nationForm",page);
+    }
     /**
      * 列表
      */

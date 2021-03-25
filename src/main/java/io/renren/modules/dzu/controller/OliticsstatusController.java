@@ -25,8 +25,17 @@ import java.util.Map;
 public class OliticsstatusController {
     @Autowired
     private OliticsstatusService oliticsstatusService;
+
+//    获取政治面貌表单
+    @GetMapping("/getOliticsstatusForm")
+    public R getOliticsstatusForm(@RequestParam Map<String, Object> params){
+        PageUtils page = oliticsstatusService.getOliticsstatusForm(params);
+        return R.ok().put("oliticsstatusForm",page);
+    }
+
+
     /**
-     * 不传参数返回所有的数据
+     * 返回所有的数据
      */
     @RequestMapping("/listAll")
     public R listAll(){
