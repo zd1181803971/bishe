@@ -1,25 +1,20 @@
 package io.renren.modules.dzu.controller;
 
-import java.util.Arrays;
-import java.util.Map;
-
-import org.apache.shiro.authz.annotation.RequiresPermissions;
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
-
-import io.renren.modules.dzu.entity.EmployeeecEntity;
-import io.renren.modules.dzu.service.EmployeeecService;
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.modules.dzu.entity.EmployeeecEntity;
+import io.renren.modules.dzu.service.EmployeeecService;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.web.bind.annotation.*;
+
+import java.util.Arrays;
+import java.util.Map;
 
 
 
 /**
- * 员工奖罚表
+ * 员工报工表
  *
  * @author zhaodong
  * @email zhaodong0826@qq.com
@@ -57,9 +52,14 @@ public class EmployeeecController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody EmployeeecEntity employeeec){
-		employeeecService.save(employeeec);
+        int count = employeeecService.count(new QueryWrapper<EmployeeecEntity>().eq("eid", employeeec.getEid()).eq("ecDate", employeeec.getEcdate()));
+        if (count>=1){
+            return R.error("你今天已经打卡了");
+        }else {
+            employeeecService.save(employeeec);
+            return R.ok();
+        }
 
-        return R.ok();
     }
 
     /**

@@ -2,14 +2,15 @@ package io.renren.modules.dzu.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
+import lombok.Data;
 
 import java.io.Serializable;
 import java.util.Date;
-import lombok.Data;
 
 /**
  * 员工奖罚表
- * 
+ *
  * @author zhaodong
  * @email zhaodong0826@qq.com
  * @date 2021-03-20 17:55:18
@@ -20,28 +21,29 @@ public class EmployeeecEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 
+	 *
 	 */
 	@TableId
 	private Long id;
 	/**
-	 * 员工编号
+	 * 员工工号
 	 */
-	private Long eid;
+	private String eid;
 	/**
-	 * 奖罚日期
+	 * 报工日期
 	 */
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date ecdate;
 	/**
-	 * 奖罚原因
+	 * 工作内容
 	 */
 	private String ecreason;
 	/**
-	 * 奖罚分
+	 * 工作时长
 	 */
 	private Long ecpoint;
 	/**
-	 * 奖罚类别，0：奖，1：罚
+	 * 报工情况 0正常报工 1请假 2 矿工
 	 */
 	private Integer ectype;
 	/**
