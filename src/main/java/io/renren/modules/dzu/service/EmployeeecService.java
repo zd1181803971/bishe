@@ -16,5 +16,6 @@ import java.util.Map;
 public interface EmployeeecService extends IService<EmployeeecEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+    PageUtils queryPage2(Map<String, Object> params);
 }
 

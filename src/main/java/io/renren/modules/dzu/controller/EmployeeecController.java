@@ -26,13 +26,24 @@ public class EmployeeecController {
     @Autowired
     private EmployeeecService employeeecService;
 
+
+
+    /**
+     * 获取当天的打卡记录
+     */
+    @RequestMapping("/getCurrentData")
+    public R getDataByCurrentTime(@RequestParam Map<String, Object> params){
+        PageUtils page = employeeecService.queryPage2(params);
+        return R.ok().put("page", page);
+    }
+
+
     /**
      * 列表
      */
     @RequestMapping("/list")
     public R list(@RequestParam Map<String, Object> params){
         PageUtils page = employeeecService.queryPage(params);
-
         return R.ok().put("page", page);
     }
 
