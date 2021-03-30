@@ -9,6 +9,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.Arrays;
+import java.util.HashMap;
 import java.util.Map;
 
 
@@ -27,6 +28,13 @@ public class EmployeeecController {
     private EmployeeecService employeeecService;
 
 
+    // 所有员工今日报工情况
+    @GetMapping("/getEmpClock")
+    public R getEmpClock(){
+        HashMap<String, Integer> empClock = employeeecService.getEmpClock();
+        System.out.println(empClock.toString());
+        return R.ok().put("list",empClock);
+    }
 
     /**
      * 获取当天的打卡记录

@@ -10,7 +10,6 @@ import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.JoblevelDao;
 import io.renren.modules.dzu.entity.JoblevelEntity;
 import io.renren.modules.dzu.entity.form.JobleaveForm;
-import io.renren.modules.dzu.entity.form.NationForm;
 import io.renren.modules.dzu.service.JoblevelService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,10 +38,10 @@ public class JoblevelServiceImpl extends ServiceImpl<JoblevelDao, JoblevelEntity
     @Override
     public PageUtils getJobLeaveForm(Map<String, Object> params) {
         String name = null;
-        if (StringUtils.isNotEmpty(params.get("name").toString())){
+        if (StringUtils.isNotEmpty((String) params.get("name"))){
             name = params.get("name").toString();
         }
-        IPage<NationForm> page = new Query<NationForm>().getPage(params);
+        IPage<JobleaveForm> page = new Query<JobleaveForm>().getPage(params);
         PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
         List<JobleaveForm> jobLeaveFormList = joblevelDao.getJobLeaveFormList(name);
         PageInfo<JobleaveForm> jobleaveFormPageInfo = new PageInfo<>(jobLeaveFormList);

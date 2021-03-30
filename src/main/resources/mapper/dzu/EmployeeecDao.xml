@@ -3,7 +3,7 @@
 
 <mapper namespace="io.renren.modules.dzu.dao.EmployeeecDao">
 
-	<!-- 可根据自己的需求，是否要使用 -->
+    <!-- 可根据自己的需求，是否要使用 -->
     <resultMap type="io.renren.modules.dzu.entity.EmployeeecEntity" id="employeeecMap">
         <result property="id" column="id"/>
         <result property="eid" column="eid"/>
@@ -13,6 +13,14 @@
         <result property="ectype" column="ecType"/>
         <result property="remark" column="remark"/>
     </resultMap>
+    <select id="getEmpClockData" resultType="io.renren.modules.dzu.entity.dto.EmpClockDto">
+        select e.name name, c.ecType status
+        from dzu_employee e
+                 left join dzu_employeeec c
+                           on c.eid = e.jobNumber
+                               and date_format(c.ecDate, '%Y-%m-%d') = date_format(now(), '%Y-%m-%d')
+
+    </select>
 
 
 </mapper>

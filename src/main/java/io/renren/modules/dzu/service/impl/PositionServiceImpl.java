@@ -9,7 +9,6 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.PositionDao;
 import io.renren.modules.dzu.entity.PositionEntity;
-import io.renren.modules.dzu.entity.form.DeptForm;
 import io.renren.modules.dzu.entity.form.PositionForm;
 import io.renren.modules.dzu.service.PositionService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,7 +29,7 @@ public class PositionServiceImpl extends ServiceImpl<PositionDao, PositionEntity
         if (params.get("name") != null && !params.get("name").equals("")) {
             name = params.get("name").toString();
         }
-        IPage<DeptForm> page = new Query<DeptForm>().getPage(params);
+        IPage<PositionForm> page = new Query<PositionForm>().getPage(params);
         PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
         List<PositionForm> positionFormList = positionDao.getPositionFormList(name);
         PageInfo<PositionForm> positionFormPageInfo = new PageInfo<>(positionFormList);

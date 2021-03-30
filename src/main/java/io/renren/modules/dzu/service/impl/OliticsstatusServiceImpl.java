@@ -9,7 +9,6 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.OliticsstatusDao;
 import io.renren.modules.dzu.entity.OliticsstatusEntity;
-import io.renren.modules.dzu.entity.form.NationForm;
 import io.renren.modules.dzu.entity.form.OliticsstatusForm;
 import io.renren.modules.dzu.service.OliticsstatusService;
 import org.apache.commons.lang.StringUtils;
@@ -28,10 +27,10 @@ public class OliticsstatusServiceImpl extends ServiceImpl<OliticsstatusDao, Olit
     @Override
     public PageUtils getOliticsstatusForm(Map<String, Object> params) {
         String name = null;
-        if (StringUtils.isNotEmpty(params.get("name").toString())){
+        if (StringUtils.isNotEmpty((String) params.get("name"))){
             name =  params.get("name").toString();
         }
-        IPage<NationForm> page = new Query<NationForm>().getPage(params);
+        IPage<OliticsstatusForm> page = new Query<OliticsstatusForm>().getPage(params);
         PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
         List<OliticsstatusForm> oliticsstatusFormList = oliticsstatusDao.getOliticsstatusFormList(name);
         PageInfo<OliticsstatusForm> oliticsstatusFormPageInfo = new PageInfo<>(oliticsstatusFormList);

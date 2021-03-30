@@ -4,6 +4,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
 import io.renren.modules.dzu.entity.EmployeeecEntity;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -17,5 +18,7 @@ public interface EmployeeecService extends IService<EmployeeecEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
     PageUtils queryPage2(Map<String, Object> params);
+
+    HashMap<String, Integer> getEmpClock();
 }
 
