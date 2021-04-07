@@ -28,6 +28,12 @@ public class EmployeeecController {
     private EmployeeecService employeeecService;
 
 
+    @GetMapping("/getEmpClockByEid/{eid}")
+    public R getEmpClockByEid(@PathVariable("eid") String eid ){
+        EmployeeecEntity entity = employeeecService.getEmpClockByEid(eid);
+        return R.ok().put("entity",entity);
+    }
+
     // 所有员工今日报工情况
     @GetMapping("/getEmpClock")
     public R getEmpClock(){

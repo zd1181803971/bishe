@@ -86,5 +86,17 @@ public class EmployeeecServiceImpl extends ServiceImpl<EmployeeecDao, Employeeec
         return hashMap;
     }
 
+    @Override
+    public EmployeeecEntity getEmpClockByEid(String eid) {
+        LocalDate today = LocalDate.now();
+        if (StringUtils.isNotEmpty(eid)){
+            EmployeeecEntity one = this.getOne(new QueryWrapper<EmployeeecEntity>().eq("eid", eid).eq("ecDate", today));
+            if (one != null){
+                return one;
+            }
+        }
+        return null;
+    }
+
 
 }

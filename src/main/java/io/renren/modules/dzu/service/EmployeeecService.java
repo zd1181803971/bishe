@@ -20,5 +20,7 @@ public interface EmployeeecService extends IService<EmployeeecEntity> {
     PageUtils queryPage2(Map<String, Object> params);
 
     HashMap<String, Integer> getEmpClock();
+
+    EmployeeecEntity getEmpClockByEid(String eid);
 }
 

@@ -23,4 +23,11 @@ public class UserTest {
         SysUserEntity entity = sysUserService.getById(1);
         System.out.println(entity);
     }
+    @Test
+    public void test2(){
+        int a,b,c;
+        b=10;
+        a=b=c=20;
+        System.out.println(a);
+    }
 }
