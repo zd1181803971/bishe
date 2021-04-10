@@ -7,16 +7,25 @@ import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
+import io.renren.common.utils.R;
 import io.renren.modules.dzu.dao.EmployeeDao;
 import io.renren.modules.dzu.dao.LeaveDao;
 import io.renren.modules.dzu.entity.EmployeeEntity;
+import io.renren.modules.dzu.entity.EmployeeecEntity;
 import io.renren.modules.dzu.entity.LeaveEntity;
 import io.renren.modules.dzu.entity.form.DeptForm;
 import io.renren.modules.dzu.entity.form.LeaveForm;
+import io.renren.modules.dzu.service.EmployeeecService;
 import io.renren.modules.dzu.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
+import java.time.ZonedDateTime;
+import java.time.temporal.ChronoUnit;
+import java.util.Date;
 import java.util.List;
 import java.util.Map;
 
@@ -24,9 +33,11 @@ import java.util.Map;
 @Service("leaveService")
 public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> implements LeaveService {
     @Autowired
-    LeaveDao leaveDao;
+    private LeaveDao leaveDao;
     @Autowired
-    EmployeeServiceImpl employeeService;
+    private EmployeeServiceImpl employeeService;
+    @Autowired
+    private EmployeeecService employeeecService;
 
 
     @Override
@@ -38,13 +49,17 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
         }
         IPage<DeptForm> page = new Query<DeptForm>().getPage(params);
         PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
+
         List<LeaveEntity> leaveListByJob = leaveDao.getLeaveListByJob(jobNumber);
+
         PageInfo<LeaveEntity> leaveEntityPageInfo = new PageInfo<>(leaveListByJob);
         return new PageUtils(leaveEntityPageInfo.getList(),
                 (int) leaveEntityPageInfo.getTotal(),
                 leaveEntityPageInfo.getSize(),
                 leaveEntityPageInfo.getPageNum());
     }
+
+
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -83,6 +98,45 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
             return leaveEntityQueryWrapper.orderByAsc("status");
         }
         return leaveEntityQueryWrapper.orderByAsc("status");
+    }
+
+    @Override
+    public R updateLeaveAndReportWork(LeaveEntity leave) {
+        baseMapper.updateById(leave);
+        Integer status = leave.getStatus();
+        Date date1 = leave.getStartTime();
+        Date date2 = leave.getEndTime();
+
+        Instant instant = date1.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        // atZone()方法返回在指定时区从此Instant生成的ZonedDateTime。
+        LocalDate startTime = instant.atZone(zoneId).toLocalDate();
+
+        Instant instant2 = date2.toInstant();
+        LocalDate endTime = instant2.atZone(zoneId).toLocalDate();
+
+
+
+        LocalDate dateTemp = startTime;
+        long days = startTime.until(endTime, ChronoUnit.DAYS);
+        LocalDate endTimeTemp = endTime.plusDays(1L);
+//        通过
+        if (status == 1){
+                while (dateTemp.isBefore(endTimeTemp)){
+                    ZonedDateTime zdt = dateTemp.atStartOfDay(zoneId);
+                    Date date = Date.from(zdt.toInstant());
+                    EmployeeecEntity entity = new EmployeeecEntity();
+                    entity.setEid(leave.getEid());
+                    entity.setEctype(1);
+                    entity.setEcpoint(0L);
+                    entity.setEcdate(date);
+                    entity.setRemark(leave.getReason());
+                    employeeecService.save(entity);
+                    dateTemp = dateTemp.plusDays(1L);
+                }
+        }
+        return R.ok();
     }
 }
 

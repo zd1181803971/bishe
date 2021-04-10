@@ -6,8 +6,10 @@ import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.Query;
 import io.renren.modules.dzu.dao.EmployeeecDao;
+import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.EmployeeecEntity;
 import io.renren.modules.dzu.entity.dto.EmpClockDto;
+import io.renren.modules.dzu.service.EmployeeService;
 import io.renren.modules.dzu.service.EmployeeecService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,6 +27,8 @@ public class EmployeeecServiceImpl extends ServiceImpl<EmployeeecDao, Employeeec
 
     @Autowired
     private EmployeeecDao employeeecDao;
+    @Autowired
+    private EmployeeService employeeService;
 
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
@@ -88,9 +92,10 @@ public class EmployeeecServiceImpl extends ServiceImpl<EmployeeecDao, Employeeec
 
     @Override
     public EmployeeecEntity getEmpClockByEid(String eid) {
+        EmployeeEntity jobNumber = employeeService.getOne(new QueryWrapper<EmployeeEntity>().eq("jobNumber", eid));
         LocalDate today = LocalDate.now();
         if (StringUtils.isNotEmpty(eid)){
-            EmployeeecEntity one = this.getOne(new QueryWrapper<EmployeeecEntity>().eq("eid", eid).eq("ecDate", today));
+            EmployeeecEntity one = this.getOne(new QueryWrapper<EmployeeecEntity>().eq("eid", jobNumber.getId()).eq("ecDate", today));
             if (one != null){
                 return one;
             }

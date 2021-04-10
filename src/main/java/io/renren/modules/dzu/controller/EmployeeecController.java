@@ -38,7 +38,6 @@ public class EmployeeecController {
     @GetMapping("/getEmpClock")
     public R getEmpClock(){
         HashMap<String, Integer> empClock = employeeecService.getEmpClock();
-        System.out.println(empClock.toString());
         return R.ok().put("list",empClock);
     }
 

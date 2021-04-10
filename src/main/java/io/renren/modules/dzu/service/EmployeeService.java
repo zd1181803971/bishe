@@ -2,6 +2,7 @@ package io.renren.modules.dzu.service;
 
 import com.baomidou.mybatisplus.extension.service.IService;
 import io.renren.common.utils.PageUtils;
+import io.renren.common.utils.R;
 import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
 import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
@@ -33,5 +34,19 @@ public interface EmployeeService extends IService<EmployeeEntity> {
     EmpIdNameDto getIdNameByJob(String jobNumber);
 
     List<DeptAndEmpCountDto> getDeptAndEmpCount();
+
+    /**
+     * 添加员工 添加默认薪资 默认登录账户
+     * @param employee
+     * @return
+     */
+    R saveEmpWithSalaryAndSysUser(EmployeeEntity employee);
+
+    /**
+     * 删除员工同时删除薪资记录和账户和请假记录
+     * @param ids
+     * @return
+     */
+    R removeByIdsWithSalaryAndSysUerAndLeaves(Long[] ids);
 }
 

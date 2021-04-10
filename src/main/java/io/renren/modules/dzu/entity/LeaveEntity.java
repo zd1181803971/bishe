@@ -2,6 +2,7 @@ package io.renren.modules.dzu.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -18,7 +19,6 @@ import java.util.Date;
 @TableName("dzu_leave")
 public class LeaveEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-
 	/**
 	 *
 	 */
@@ -31,12 +31,13 @@ public class LeaveEntity implements Serializable {
 	/**
 	 * 开始时间
 	 */
-
-	private Date starttime;
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+	private Date startTime;
 	/**
 	 * 结束时间
 	 */
-	private Date endtime;
+	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+	private Date endTime;
 	/**
 	 * 请假原因
 	 */

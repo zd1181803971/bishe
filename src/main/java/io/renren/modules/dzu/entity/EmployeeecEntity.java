@@ -9,7 +9,7 @@ import java.io.Serializable;
 import java.util.Date;
 
 /**
- * 员工奖罚表
+ * 员工报工
  *
  * @author zhaodong
  * @email zhaodong0826@qq.com
@@ -28,7 +28,7 @@ public class EmployeeecEntity implements Serializable {
 	/**
 	 * 员工工号
 	 */
-	private String eid;
+	private Long eid;
 	/**
 	 * 报工日期
 	 */

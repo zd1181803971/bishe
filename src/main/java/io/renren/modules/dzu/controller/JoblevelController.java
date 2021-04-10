@@ -70,17 +70,14 @@ public class JoblevelController {
     @RequestMapping("/save")
     public R save(@RequestBody JoblevelEntity joblevel){
 		joblevelService.save(joblevel);
-
         return R.ok();
     }
-
     /**
      * 修改
      */
     @RequestMapping("/update")
     public R update(@RequestBody JoblevelEntity joblevel){
 		joblevelService.updateById(joblevel);
-
         return R.ok();
     }
 

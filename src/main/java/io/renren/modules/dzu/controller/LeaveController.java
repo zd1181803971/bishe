@@ -1,5 +1,6 @@
 package io.renren.modules.dzu.controller;
 
+import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.dzu.entity.LeaveEntity;
@@ -56,7 +57,6 @@ public class LeaveController {
     @RequestMapping("/info/{id}")
     public R info(@PathVariable("id") Long id){
 		LeaveEntity leave = leaveService.getById(id);
-
         return R.ok().put("leave", leave);
     }
 
@@ -65,9 +65,13 @@ public class LeaveController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody LeaveEntity leave){
-		leaveService.save(leave);
-
-        return R.ok();
+        LeaveEntity eid = leaveService.getOne(new QueryWrapper<LeaveEntity>().eq("eid", leave.getEid()).eq("status",leave.getStatus()));
+        if (eid == null){
+            leaveService.save(leave);
+            return R.ok();
+        }else {
+            return R.error("等待管理员审批后再次请假！");
+        }
     }
 
     /**
@@ -75,9 +79,8 @@ public class LeaveController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody LeaveEntity leave){
-		leaveService.updateById(leave);
+        return leaveService.updateLeaveAndReportWork(leave);
 
-        return R.ok();
     }
 
     /**

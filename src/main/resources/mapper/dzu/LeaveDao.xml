@@ -7,8 +7,8 @@
     <resultMap type="io.renren.modules.dzu.entity.LeaveEntity" id="leaveMap">
         <result property="id" column="id"/>
         <result property="eid" column="eid"/>
-        <result property="starttime" column="startTime"/>
-        <result property="endtime" column="endTime"/>
+        <result property="startTime" column="start_time"/>
+        <result property="endTime" column="end_time"/>
         <result property="reason" column="reason"/>
         <result property="status" column="status"/>
         <result property="message" column="message"/>
@@ -19,8 +19,8 @@
         l.id,
         e.name,
         e.jobNumber,
-        l.startTime,
-        l.endTime,
+        l.start_time,
+        l.end_time,
         l.reason,
         l.status,
         l.message
@@ -33,7 +33,7 @@
         order by l.status
     </select>
     <select id="getLeaveListByJob" resultType="io.renren.modules.dzu.entity.LeaveEntity" parameterType="string">
-        select id,eid,startTime,endTime,reason,status,message
+        select id,eid,start_time ,end_time ,reason,status,message
         from dzu_leave
         where eid = (select e.id from dzu_employee e where e.jobNumber = #{jobNumber})
     </select>

@@ -1,5 +1,6 @@
 package io.renren.modules.dzu.entity.form;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
@@ -16,6 +17,7 @@ import java.util.Date;
 @AllArgsConstructor
 @NoArgsConstructor
 public class LeaveForm {
+
     //    请假id
     private Long id;
 
@@ -31,12 +33,13 @@ public class LeaveForm {
     /**
      * 开始时间
      */
-
-    private Date starttime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Date startTime;
     /**
      * 结束时间
      */
-    private Date endtime;
+    @JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
+    private Date endTime;
     /**
      * 请假原因
      */

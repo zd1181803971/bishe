@@ -2,7 +2,9 @@ package io.renren.modules.dzu.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
+import lombok.AllArgsConstructor;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.io.Serializable;
 
@@ -15,6 +17,8 @@ import java.io.Serializable;
  */
 @Data
 @TableName("dzu_salary")
+@AllArgsConstructor
+@NoArgsConstructor
 public class SalaryEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 

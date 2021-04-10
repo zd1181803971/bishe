@@ -1,21 +1,20 @@
 package io.renren.modules.dzu.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.dzu.entity.EmployeeEntity;
-import io.renren.modules.dzu.entity.SalaryEntity;
 import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
 import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
 import io.renren.modules.dzu.service.EmployeeService;
 import io.renren.modules.dzu.service.SalaryService;
 import io.renren.modules.sys.controller.AbstractController;
-import io.renren.modules.sys.entity.SysUserEntity;
 import io.renren.modules.sys.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.*;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 
 /**
@@ -110,26 +109,9 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody EmployeeEntity employee){
-        employeeService.save(employee);
-        EmployeeEntity employeeByjobNumber = employeeService.getEmployeeByjobNumber(employee.getJobnumber());
-        SalaryEntity salaryEntity = new SalaryEntity();
-        salaryEntity.setEid(employeeByjobNumber.getId());
-        salaryEntity.setBasicsalary(3000.00);
-        salaryEntity.setBonus(0.00);
-        salaryEntity.setLunchsalary(10.00);
-        salaryEntity.setTrafficsalary(200.00);
-        salaryEntity.setAllsalary(3210.00);
-        salaryService.save(salaryEntity);
-        SysUserEntity sysUserEntity = new SysUserEntity();
-        sysUserEntity.setUsername(employee.getJobnumber());
-        sysUserEntity.setStatus(1);
-        sysUserEntity.setPassword("123456");
-        List list = new ArrayList<Long>();
-        list.add(1L);
-        sysUserEntity.setRoleIdList(list);
-        sysUserEntity.setCreateUserId(1L);
-        sysUserService.saveUser(sysUserEntity);
-        return R.ok();
+
+        R r =employeeService.saveEmpWithSalaryAndSysUser(employee);
+        return r;
     }
 
     /**
@@ -147,9 +129,8 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-		employeeService.removeByIds(Arrays.asList(ids));
-        salaryService.remove(new QueryWrapper<SalaryEntity>().eq("eid",ids));
-        return R.ok();
+        R  r = employeeService.removeByIdsWithSalaryAndSysUerAndLeaves(ids);
+        return r;
     }
 
 }
