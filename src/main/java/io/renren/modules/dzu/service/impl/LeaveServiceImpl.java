@@ -138,6 +138,17 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
         }
         return R.ok();
     }
+
+    @Override
+    public R addLeave(LeaveEntity leave) {
+        LeaveEntity eid = baseMapper.selectOne(new QueryWrapper<LeaveEntity>().eq("eid", leave.getEid()).eq("status",leave.getStatus()));
+        if (eid == null){
+            baseMapper.insert(leave);
+            return R.ok();
+        }else {
+            return R.error("等待管理员审批后再次请假！");
+        }
+    }
 }
 
 

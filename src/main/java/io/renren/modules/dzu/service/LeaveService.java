@@ -28,5 +28,8 @@ public interface LeaveService extends IService<LeaveEntity> {
      * @return
      */
     R updateLeaveAndReportWork(LeaveEntity leave);
+
+
+    R addLeave(LeaveEntity leave);
 }
 

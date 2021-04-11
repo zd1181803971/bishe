@@ -109,9 +109,7 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody EmployeeEntity employee){
-
-        R r =employeeService.saveEmpWithSalaryAndSysUser(employee);
-        return r;
+        return employeeService.saveEmpWithSalaryAndSysUser(employee);
     }
 
     /**
@@ -129,8 +127,7 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/delete")
     public R delete(@RequestBody Long[] ids){
-        R  r = employeeService.removeByIdsWithSalaryAndSysUerAndLeaves(ids);
-        return r;
+        return employeeService.removeByIdsWithSalaryAndSysUerAndLeaves(ids);
     }
 
 }

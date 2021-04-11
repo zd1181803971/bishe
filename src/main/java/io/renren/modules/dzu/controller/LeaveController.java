@@ -65,13 +65,8 @@ public class LeaveController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody LeaveEntity leave){
-        LeaveEntity eid = leaveService.getOne(new QueryWrapper<LeaveEntity>().eq("eid", leave.getEid()).eq("status",leave.getStatus()));
-        if (eid == null){
-            leaveService.save(leave);
-            return R.ok();
-        }else {
-            return R.error("等待管理员审批后再次请假！");
-        }
+
+        return leaveService.addLeave(leave);
     }
 
     /**
