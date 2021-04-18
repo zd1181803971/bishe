@@ -201,4 +201,22 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
             return new QueryWrapper<EmployeeEntity>();
         }
     }
+
+    @Override
+    public R updateWithEmailAndPhone(EmployeeEntity employee) {
+        baseMapper.updateById(employee);
+        String name = null;
+        if (StringUtils.isNotBlank(employee.getJobnumber())){
+            name = employee.getJobnumber();
+        }
+        SysUserEntity one = sysUserService.getOne(new QueryWrapper<SysUserEntity>().eq("username", name));
+        if (StringUtils.isNotBlank(employee.getEmail())){
+            one.setEmail(employee.getEmail());
+        }
+        if (StringUtils.isNotBlank(employee.getPhone())){
+            one.setMobile(employee.getPhone());
+        }
+      sysUserService.updateById(one);
+        return null;
+    }
 }

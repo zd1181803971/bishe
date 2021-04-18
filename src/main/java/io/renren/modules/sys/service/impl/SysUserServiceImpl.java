@@ -60,10 +60,7 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		return new PageUtils(page);
 	}
 
-	@Override
-	public List<String> queryAllPerms(Long userId) {
-		return baseMapper.queryAllPerms(userId);
-	}
+
 
 	@Override
 	public List<Long> queryAllMenuId(Long userId) {

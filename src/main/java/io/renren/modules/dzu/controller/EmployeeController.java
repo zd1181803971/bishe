@@ -117,7 +117,7 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EmployeeEntity employee){
-		employeeService.updateById(employee);
+	R r = employeeService.updateWithEmailAndPhone(employee);
 
         return R.ok();
     }

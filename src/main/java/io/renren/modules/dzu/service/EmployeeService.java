@@ -48,5 +48,12 @@ public interface EmployeeService extends IService<EmployeeEntity> {
      * @return
      */
     R removeByIdsWithSalaryAndSysUerAndLeaves(Long[] ids);
+
+    /**
+     * 员工若修改邮箱和手机  账户也随着修改
+     * @param employee
+     * @return
+     */
+    R updateWithEmailAndPhone(EmployeeEntity employee);
 }
 

@@ -19,8 +19,6 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.Set;
-
 /**
  * 认证
  *
@@ -41,15 +39,7 @@ public class OAuth2Realm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        SysUserEntity user = (SysUserEntity)principals.getPrimaryPrincipal();
-        Long userId = user.getUserId();
-
-        //用户权限列表
-        Set<String> permsSet = shiroService.getUserPermissions(userId);
-
-        SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
-        info.setStringPermissions(permsSet);
-        return info;
+        return  new SimpleAuthorizationInfo();
     }
 
     /**

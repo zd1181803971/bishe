@@ -25,7 +25,7 @@ import java.util.List;
 @TableName("sys_menu")
 public class SysMenuEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
-	
+
 	/**
 	 * 菜单ID
 	 */
@@ -36,7 +36,7 @@ public class SysMenuEntity implements Serializable {
 	 * 父菜单ID，一级菜单为0
 	 */
 	private Long parentId;
-	
+
 	/**
 	 * 父菜单名称
 	 */
@@ -56,7 +56,7 @@ public class SysMenuEntity implements Serializable {
 	/**
 	 * 授权(多个用逗号分隔，如：user:list,user:create)
 	 */
-	private String perms;
+//	private String perms;
 
 	/**
 	 * 类型     0：目录   1：菜单   2：按钮
@@ -72,7 +72,7 @@ public class SysMenuEntity implements Serializable {
 	 * 排序
 	 */
 	private Integer orderNum;
-	
+
 	/**
 	 * ztree属性
 	 */
