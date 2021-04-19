@@ -8,7 +8,6 @@
 
 package io.renren.modules.sys.controller;
 
-import io.renren.common.annotation.SysLog;
 import io.renren.common.utils.Constant;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -83,7 +82,6 @@ public class SysRoleController extends AbstractController {
 	/**
 	 * 保存角色
 	 */
-	@SysLog("保存角色")
 	@PostMapping("/save")
 	public R save(@RequestBody SysRoleEntity role){
 		ValidatorUtils.validateEntity(role);
@@ -97,7 +95,6 @@ public class SysRoleController extends AbstractController {
 	/**
 	 * 修改角色
 	 */
-	@SysLog("修改角色")
 	@PostMapping("/update")
 	public R update(@RequestBody SysRoleEntity role){
 		ValidatorUtils.validateEntity(role);
@@ -111,7 +108,6 @@ public class SysRoleController extends AbstractController {
 	/**
 	 * 删除角色
 	 */
-	@SysLog("删除角色")
 	@PostMapping("/delete")
 	public R delete(@RequestBody Long[] roleIds){
 		sysRoleService.deleteBatch(roleIds);

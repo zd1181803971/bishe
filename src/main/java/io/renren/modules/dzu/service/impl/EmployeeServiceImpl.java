@@ -171,16 +171,22 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         HashMap<String, Integer> hashMap = new HashMap<>();
         List<EmployeeEntity> entityList = baseMapper.selectList(null);
         int j = 1;
+
         for (int i = 0; i < entityList.size(); i++) {
-            if (!arrayList.contains(entityList.get(i).getSchool())) {
-                arrayList.add(entityList.get(i).getSchool());
-                hashMap.put(entityList.get(i).getSchool(), j);
-            } else {
-                Integer integer = hashMap.get(entityList.get(i).getSchool());
-                integer++;
-                hashMap.put(entityList.get(i).getSchool(), integer);
+            if (StringUtils.isNotBlank(entityList.get(i).getSchool())){
+                if (!arrayList.contains(entityList.get(i).getSchool())) {
+
+                    arrayList.add(entityList.get(i).getSchool());
+                    hashMap.put(entityList.get(i).getSchool(), j);
+
+                } else {
+                    Integer integer = hashMap.get(entityList.get(i).getSchool());
+                    integer++;
+                    hashMap.put(entityList.get(i).getSchool(), integer);
+                }
             }
         }
+        hashMap.put("总计",baseMapper.selectCount(null));
         return hashMap;
     }
 

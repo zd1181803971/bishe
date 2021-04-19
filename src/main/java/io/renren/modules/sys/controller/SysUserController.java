@@ -8,7 +8,6 @@
 
 package io.renren.modules.sys.controller;
 
-import io.renren.common.annotation.SysLog;
 import io.renren.common.utils.Constant;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
@@ -66,7 +65,6 @@ public class SysUserController extends AbstractController {
 	/**
 	 * 修改登录用户密码
 	 */
-	@SysLog("修改密码")
 	@PostMapping("/password")
 	public R password(@RequestBody PasswordForm form){
 		Assert.isBlank(form.getNewPassword(), "新密码不为能空");
@@ -102,7 +100,6 @@ public class SysUserController extends AbstractController {
 	/**
 	 * 保存用户
 	 */
-	@SysLog("保存用户")
 	@PostMapping("/save")
 	public R save(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, AddGroup.class);
@@ -114,7 +111,6 @@ public class SysUserController extends AbstractController {
 	/**
 	 * 修改用户
 	 */
-	@SysLog("修改用户")
 	@PostMapping("/update")
 	public R update(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, UpdateGroup.class);
@@ -128,7 +124,6 @@ public class SysUserController extends AbstractController {
 	/**
 	 * 删除用户
 	 */
-	@SysLog("删除用户")
 	@PostMapping("/delete")
 	public R delete(@RequestBody Long[] userIds){
 		if(ArrayUtils.contains(userIds, 1L)){

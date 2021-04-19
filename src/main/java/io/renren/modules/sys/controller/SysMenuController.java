@@ -8,7 +8,6 @@
 
 package io.renren.modules.sys.controller;
 
-import io.renren.common.annotation.SysLog;
 import io.renren.common.exception.RRException;
 import io.renren.common.utils.Constant;
 import io.renren.common.utils.R;
@@ -90,7 +89,6 @@ public class SysMenuController extends AbstractController {
 	/**
 	 * 保存
 	 */
-	@SysLog("保存菜单")
 	@PostMapping("/save")
 	public R save(@RequestBody SysMenuEntity menu){
 		//数据校验
@@ -104,7 +102,6 @@ public class SysMenuController extends AbstractController {
 	/**
 	 * 修改
 	 */
-	@SysLog("修改菜单")
 	@PostMapping("/update")
 	public R update(@RequestBody SysMenuEntity menu){
 		//数据校验
@@ -118,7 +115,6 @@ public class SysMenuController extends AbstractController {
 	/**
 	 * 删除
 	 */
-	@SysLog("删除菜单")
 	@PostMapping("/delete/{menuId}")
 	public R delete(@PathVariable("menuId") long menuId){
 		if(menuId <= 31){
