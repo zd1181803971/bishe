@@ -1,6 +1,7 @@
 package io.renren.modules.dzu.entity;
 
 import com.baomidou.mybatisplus.annotation.TableId;
+import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
 import lombok.Data;
@@ -110,9 +111,10 @@ public class EmployeeEntity implements Serializable {
 	@JsonFormat(pattern = "yyyy-MM-dd",timezone = "GMT+8")
 	private Date begindate;
 	/**
-	 * 在职状态
+	 * 在职状态 1在职 。0离职
 	 */
-	private String workstate;
+	@TableLogic(value = "1",delval = "0")
+	private Integer workstate;
 
 	/**
 	 * 离职日期

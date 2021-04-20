@@ -103,7 +103,6 @@ public class EmployeeController extends AbstractController {
     }
 
 
-
     /**
      * 新增员工时，同时增加默认工资 3210块钱，增加系统账号，默认密码123456 默认启用
      */
@@ -117,9 +116,7 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EmployeeEntity employee){
-	R r = employeeService.updateWithEmailAndPhone(employee);
-
-        return R.ok();
+        return employeeService.updateWithEmailAndPhone(employee);
     }
 
     /**

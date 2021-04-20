@@ -19,6 +19,7 @@
         left join (
         select count(nationId) `count`,nationId
         from dzu_employee
+        where dzu_employee.workstate = '1'
         group by nationId
         ) e
         on n.id = e.nationId

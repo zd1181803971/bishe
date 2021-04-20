@@ -9,7 +9,7 @@
         <result property="eid" column="eid"/>
         <result property="ecdate" column="ecDate"/>
         <result property="ecreason" column="ecReason"/>
-        <result property="ecpoint" column="ecPoint"/>
+        <result property="echour" column="ecHour"/>
         <result property="ectype" column="ecType"/>
         <result property="remark" column="remark"/>
     </resultMap>

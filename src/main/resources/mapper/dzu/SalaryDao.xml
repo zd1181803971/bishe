@@ -25,7 +25,7 @@
         s.allSalary
         from dzu_employee e,
         dzu_salary s
-        where s.eid = e.id
+        where s.eid = e.id and e.workstate = '1'
         <if test="name!=null and name!=''">
             and e.name like concat('%',#{name},'%')
         </if>

@@ -7,8 +7,7 @@
     <resultMap type="io.renren.modules.dzu.entity.PositionEntity" id="positionMap">
         <result property="id" column="id"/>
         <result property="name" column="name"/>
-        <result property="createdate" column="createDate"/>
-        <result property="enabled" column="enabled"/>
+
     </resultMap>
     <select id="getPositionFormList" resultType="io.renren.modules.dzu.entity.form.PositionForm">
         select p.`id` id, p.name `name`, e.count `count`
@@ -22,6 +21,7 @@
         left join (
         select count(posId) count,posId
         from dzu_employee
+        where dzu_employee.workstate = '1'
         group by posId
         ) e
         on p.id = e.posId

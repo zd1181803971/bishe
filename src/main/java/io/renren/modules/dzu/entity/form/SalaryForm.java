@@ -6,7 +6,7 @@ import lombok.NoArgsConstructor;
 
 /**
  * @Classname SalaryForm
- * @Description TODO
+ * @Description 薪资
  * @Date 2021/3/22 16:20
  * @Created by ZhaoDong
  */

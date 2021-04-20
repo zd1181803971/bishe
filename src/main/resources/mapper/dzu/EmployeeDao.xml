@@ -78,7 +78,6 @@
         </if>
     </select>
 
-
     <select id="getIdNameByJob" resultType="io.renren.modules.dzu.entity.dto.EmpIdNameDto" parameterType="string">
         select e.id, e.name
         from dzu_employee e
@@ -88,7 +87,7 @@
         select  d.name `name`,count(*) `value`
         from dzu_employee e,
              dzu_department d
-        where e.departmentId = d.id
+        where e.departmentId = d.id and e.workstate = '1'
         group by e.departmentId
     </select>
 

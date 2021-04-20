@@ -4,7 +4,7 @@ import lombok.Data;
 
 /**
  * @Classname DeptForm
- * @Description TODO
+ * @Description 部门表单
  * @Date 2021/3/25 15:00
  * @Created by ZhaoDong
  */

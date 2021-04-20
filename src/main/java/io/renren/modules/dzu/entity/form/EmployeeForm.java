@@ -8,7 +8,7 @@ import java.util.Date;
 
 /**
  * @Classname EmployeeForm
- * @Description TODO
+ * @Description 员工表单
  * @Date 2021/3/23 22:25
  * @Created by Administrator
  */
@@ -103,7 +103,8 @@ public class EmployeeForm {
     /**
      * 在职状态
      */
-    private String workstate;
+
+    private Integer workstate;
 
     /**
      * 离职日期

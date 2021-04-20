@@ -41,7 +41,7 @@ public class EmployeeecEntity implements Serializable {
 	/**
 	 * 工作时长
 	 */
-	private Long ecpoint;
+	private Long echour;
 	/**
 	 * 报工情况 0正常报工 1请假 2 矿工
 	 */

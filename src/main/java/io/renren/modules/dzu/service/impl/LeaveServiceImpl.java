@@ -129,7 +129,7 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
                     EmployeeecEntity entity = new EmployeeecEntity();
                     entity.setEid(leave.getEid());
                     entity.setEctype(1);
-                    entity.setEcpoint(0L);
+                    entity.setEchour(0L);
                     entity.setEcdate(date);
                     entity.setRemark(leave.getReason());
                     employeeecService.save(entity);

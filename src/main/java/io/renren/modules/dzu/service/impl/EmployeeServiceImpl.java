@@ -56,11 +56,11 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
 
     @Override
     public R saveEmpWithSalaryAndSysUser(EmployeeEntity employee) {
-        if (employee != null){
+        if (employee != null) {
             EmployeeEntity entity = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>().eq("jobNumber", employee.getJobnumber()));
-            if (entity == null){
+            if (entity == null) {
                 int insert = baseMapper.insert(employee);
-                if (insert >0){
+                if (insert > 0) {
                     SysRoleEntity one = sysRoleService.getOne(new QueryWrapper<SysRoleEntity>().eq("role_name", ROLE_NAME));
                     if (one != null) {
                         SysUserEntity sysUserEntity = new SysUserEntity();
@@ -72,10 +72,10 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
                         sysUserService.saveUser(sysUserEntity);
 
                         EmployeeEntity entityTemp = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>().eq("jobNumber", employee.getJobnumber()));
-                        SalaryEntity salaryEntity = new SalaryEntity(null,entityTemp.getId(),3000.00,0.00,10.00,200.00,3210.00);
+                        SalaryEntity salaryEntity = new SalaryEntity(null, entityTemp.getId(), 3000.00, 0.00, 10.00, 200.00, 3210.00);
                         boolean save = salaryService.save(salaryEntity);
 
-                        if (save){
+                        if (save) {
                             return R.ok("员工添加成功！");
                         }
                     }
@@ -84,16 +84,16 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
 
             }
         }
-        return R.error("系统异常");
+        return R.error("工号已经存在！");
     }
 
     @Override
     public R removeByIdsWithSalaryAndSysUerAndLeaves(Long[] ids) {
-        for (Long id : ids){
+        for (Long id : ids) {
             EmployeeEntity entity = baseMapper.selectById(id);
-            sysUserService.remove(new QueryWrapper<SysUserEntity>().eq("username",entity.getJobnumber()));
-            salaryService.remove(new QueryWrapper<SalaryEntity>().eq("eid",id));
-            leaveService.remove(new QueryWrapper<LeaveEntity>().eq("eid",id));
+            sysUserService.remove(new QueryWrapper<SysUserEntity>().eq("username", entity.getJobnumber()));
+            salaryService.remove(new QueryWrapper<SalaryEntity>().eq("eid", id));
+            leaveService.remove(new QueryWrapper<LeaveEntity>().eq("eid", id));
         }
         baseMapper.deleteBatchIds(Arrays.asList(ids));
         return R.ok("删除成功");
@@ -101,13 +101,12 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
 
     @Override
     public EmpIdNameDto getIdNameByJob(String jobNumber) {
-        if (StringUtils.isNotEmpty(jobNumber)){
+        if (StringUtils.isNotEmpty(jobNumber)) {
             return employeeDao.getIdNameByJob(jobNumber);
-        }else {
+        } else {
             return null;
         }
     }
-
 
 
     @Override
@@ -116,7 +115,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         String jobNumber = null;
         String name = null;
 //        获取前端发送的条件参数
-        if (map.get("id") != null && !map.get("id").equals("")){
+        if (map.get("id") != null && !map.get("id").equals("")) {
             id = (Long) map.get("id");
         }
         if (map.get("jobNumber") != null && !map.get("jobNumber").equals("")) {
@@ -135,8 +134,6 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
                 employeeFormPageInfo.getSize(),
                 employeeFormPageInfo.getPageNum());
     }
-
-
 
 
     @Override
@@ -173,7 +170,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
         int j = 1;
 
         for (int i = 0; i < entityList.size(); i++) {
-            if (StringUtils.isNotBlank(entityList.get(i).getSchool())){
+            if (StringUtils.isNotBlank(entityList.get(i).getSchool())) {
                 if (!arrayList.contains(entityList.get(i).getSchool())) {
 
                     arrayList.add(entityList.get(i).getSchool());
@@ -186,7 +183,7 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
                 }
             }
         }
-        hashMap.put("总计",baseMapper.selectCount(null));
+        hashMap.put("总计", baseMapper.selectCount(null));
         return hashMap;
     }
 
@@ -210,19 +207,59 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
 
     @Override
     public R updateWithEmailAndPhone(EmployeeEntity employee) {
-        baseMapper.updateById(employee);
-        String name = null;
-        if (StringUtils.isNotBlank(employee.getJobnumber())){
-            name = employee.getJobnumber();
+        if (employee.getWorkstate() == 1){
+            baseMapper.updateById(employee);
+            EmployeeEntity entity = baseMapper.selectById(employee.getId());
+            String name = null;
+            if (employee.getJobnumber() != null) {
+                name = employee.getJobnumber();
+                SysUserEntity one = sysUserService.getOne(new QueryWrapper<SysUserEntity>().eq("username", name));
+                if (employee.getEmail() != null) {
+                    one.setEmail(employee.getEmail());
+                }
+                if (employee.getPhone() != null) {
+                    one.setMobile(employee.getPhone());
+                }
+                sysUserService.updateById(one);
+            }else {
+                name = entity.getJobnumber();
+                SysUserEntity one = sysUserService.getOne(new QueryWrapper<SysUserEntity>().eq("username", name));
+                if (one == null){
+                    return R.ok();
+                }
+                if (entity.getEmail() != null) {
+                    one.setEmail(entity.getEmail());
+                }
+                if (entity.getPhone() != null) {
+                    one.setMobile(entity.getPhone());
+                }
+                sysUserService.updateById(one);
+            }
         }
-        SysUserEntity one = sysUserService.getOne(new QueryWrapper<SysUserEntity>().eq("username", name));
-        if (StringUtils.isNotBlank(employee.getEmail())){
-            one.setEmail(employee.getEmail());
+        else {
+//            离职 直接删
+            delEmpWithSalaryAndLeave(employee);
         }
-        if (StringUtils.isNotBlank(employee.getPhone())){
-            one.setMobile(employee.getPhone());
+        return R.ok();
+    }
+
+    /**
+     * 删除员工时 删除薪资和请假
+     * @param employee
+     * @return
+     */
+    public R delEmpWithSalaryAndLeave(EmployeeEntity employee){
+        Long id = employee.getId();
+        String jobnumber = employee.getJobnumber();
+        if (id != null && StringUtils.isNotBlank(jobnumber)){
+            baseMapper.deleteById(employee);
+            sysUserService.remove(new QueryWrapper<SysUserEntity>().eq("username", jobnumber));
+            salaryService.remove(new QueryWrapper<SalaryEntity>().eq("eid",id));
+            leaveService.remove(new QueryWrapper<LeaveEntity>().eq("eid",id));
+            return R.ok();
+        }else {
+            return R.error();
         }
-      sysUserService.updateById(one);
-        return null;
+
     }
 }

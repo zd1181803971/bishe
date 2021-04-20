@@ -21,6 +21,7 @@
         left join (
         select count(jobLevelId) `count`,jobLevelId
         from dzu_employee
+        where dzu_employee.workstate = '1'
         group by jobLevelId
         ) e
         on j.id = e.jobLevelId

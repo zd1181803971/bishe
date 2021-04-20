@@ -26,7 +26,7 @@
         l.message
         from dzu_employee e,
         dzu_leave l
-        where l.eid = e.id
+        where l.eid = e.id and e.workstate = '1'
         <if test="name!=null and name!=''">
             and e.name like concat('%',#{name},'%')
         </if>
