@@ -103,7 +103,6 @@ public class SysUserController extends AbstractController {
 	@PostMapping("/save")
 	public R save(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, AddGroup.class);
-		user.setCreateUserId(getUserId());
 		sysUserService.saveUser(user);
 		return R.ok();
 	}
@@ -114,8 +113,6 @@ public class SysUserController extends AbstractController {
 	@PostMapping("/update")
 	public R update(@RequestBody SysUserEntity user){
 		ValidatorUtils.validateEntity(user, UpdateGroup.class);
-
-		user.setCreateUserId(getUserId());
 		sysUserService.update(user);
 
 		return R.ok();

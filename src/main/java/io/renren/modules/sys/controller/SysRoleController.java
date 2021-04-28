@@ -85,8 +85,6 @@ public class SysRoleController extends AbstractController {
 	@PostMapping("/save")
 	public R save(@RequestBody SysRoleEntity role){
 		ValidatorUtils.validateEntity(role);
-
-		role.setCreateUserId(getUserId());
 		sysRoleService.saveRole(role);
 
 		return R.ok();
@@ -98,10 +96,7 @@ public class SysRoleController extends AbstractController {
 	@PostMapping("/update")
 	public R update(@RequestBody SysRoleEntity role){
 		ValidatorUtils.validateEntity(role);
-
-		role.setCreateUserId(getUserId());
 		sysRoleService.update(role);
-
 		return R.ok();
 	}
 

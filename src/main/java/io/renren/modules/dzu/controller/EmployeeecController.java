@@ -3,11 +3,15 @@ package io.renren.modules.dzu.controller;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.dzu.entity.EmployeeecEntity;
 import io.renren.modules.dzu.service.EmployeeecService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.LocalDate;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -28,9 +32,36 @@ public class EmployeeecController {
     private EmployeeecService employeeecService;
 
 
-    @GetMapping("/getEmpClockByEid/{eid}")
-    public R getEmpClockByEid(@PathVariable("eid") String eid ){
-        EmployeeecEntity entity = employeeecService.getEmpClockByEid(eid);
+    /**
+     * 今日报工表单
+     * @param params
+     * @return
+     */
+    @GetMapping("/getEmployeeecFormListByNow")
+    public R getEmployeeecFormByNow(@RequestParam Map<String, Object> params){
+        params.put("empTime", LocalDate.now().toString());
+        PageUtils page  = employeeecService.getemployeeecForm(params);
+        return R.ok().put("page", page);
+    }
+
+    /**
+     * 报工表单
+     * @param params
+     * @return
+     */
+    @GetMapping("/getEmployeeecFormList")
+    public R getEmployeeecForm(@RequestParam Map<String, Object> params){
+        PageUtils page  = employeeecService.getemployeeecForm(params);
+        return R.ok().put("page", page);
+    }
+    /**
+     * 通过工号获取报工记录
+     * @param jobnumber
+     * @return
+     */
+    @GetMapping("/getEmpClockByEid/{jobnumber}")
+    public R getEmpClockByEid(@PathVariable("jobnumber") String jobnumber ){
+        EmployeeecEntity entity = employeeecService.getEmpClockByEid(jobnumber);
         return R.ok().put("entity",entity);
     }
 
@@ -76,6 +107,7 @@ public class EmployeeecController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody EmployeeecEntity employeeec){
+        ValidatorUtils.validateEntity(employeeec, AddGroup.class);
         int count = employeeecService.count(new QueryWrapper<EmployeeecEntity>().eq("eid", employeeec.getEid()).eq("ecDate", employeeec.getEcdate()));
         if (count>=1){
             return R.error("你今天已经打卡了");
@@ -91,7 +123,9 @@ public class EmployeeecController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EmployeeecEntity employeeec){
-		employeeecService.updateById(employeeec);
+        ValidatorUtils.validateEntity(employeeec, UpdateGroup.class);
+
+        employeeecService.updateById(employeeec);
 
         return R.ok();
     }

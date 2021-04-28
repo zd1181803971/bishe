@@ -22,5 +22,26 @@
 
     </select>
 
+    <select id="getEmployeeecForm" resultType="io.renren.modules.dzu.entity.form.EmployeeecForm">
+        select a.id,
+               e.name,
+               e.jobNumber,
+               a.ecDate,
+               a.ecReason,
+               a.ecHour,
+               a.ecType,
+               a.remark
+        from dzu_employee e,
+             dzu_employeeec a
+
+        where a.eid = e.id and e.workstate = '1'
+        <if test="name!=null and name!=''">
+            and e.jobNumber like concat('%',#{name},'%')
+        </if>
+        <if test="localDate!=null">
+            and a.ecDate = #{localDate}
+        </if>
+    </select>
+
 
 </mapper>

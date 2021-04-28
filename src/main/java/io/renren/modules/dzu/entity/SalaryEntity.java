@@ -28,7 +28,7 @@ public class SalaryEntity implements Serializable {
 	@TableId
 	private Long id;
 	/**
-	 *
+	 *	员工id
 	 */
 	private Long eid;
 	/**

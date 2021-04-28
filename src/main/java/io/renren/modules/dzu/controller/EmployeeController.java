@@ -2,6 +2,9 @@ package io.renren.modules.dzu.controller;
 
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
 import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
@@ -108,6 +111,8 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody EmployeeEntity employee){
+        ValidatorUtils.validateEntity(employee, AddGroup.class);
+
         return employeeService.saveEmpWithSalaryAndSysUser(employee);
     }
 
@@ -116,6 +121,7 @@ public class EmployeeController extends AbstractController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody EmployeeEntity employee){
+        ValidatorUtils.validateEntity(employee, UpdateGroup.class);
         return employeeService.updateWithEmailAndPhone(employee);
     }
 

@@ -32,7 +32,7 @@ public class SysUserEntity implements Serializable {
 	private static final long serialVersionUID = 1L;
 
 	/**
-	 * 用户ID
+	 * 账户ID
 	 */
 	@TableId
 	private Long userId;
@@ -79,14 +79,11 @@ public class SysUserEntity implements Serializable {
 	@TableField(exist=false)
 	private List<Long> roleIdList;
 
-	/**
-	 * 创建者ID
-	 */
-	private Long createUserId;
 
 	/**
 	 * 创建时间
 	 */
 	private Date createTime;
+
 
 }

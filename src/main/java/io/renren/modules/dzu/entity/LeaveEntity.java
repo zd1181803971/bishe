@@ -3,8 +3,11 @@ package io.renren.modules.dzu.entity;
 import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import lombok.Data;
 
+import javax.validation.constraints.NotBlank;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -41,9 +44,10 @@ public class LeaveEntity implements Serializable {
 	/**
 	 * 请假原因
 	 */
+	@NotBlank(message = "请假原因不能为空",groups = {AddGroup.class, UpdateGroup.class})
 	private String reason;
 	/**
-	 * 请假状态 0未通过 1通过
+	 * 请假状态
 	 */
 	private Integer status;
 	/**

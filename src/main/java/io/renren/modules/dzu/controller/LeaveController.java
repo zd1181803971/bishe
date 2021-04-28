@@ -1,8 +1,10 @@
 package io.renren.modules.dzu.controller;
 
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.validator.ValidatorUtils;
+import io.renren.common.validator.group.AddGroup;
+import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.dzu.entity.LeaveEntity;
 import io.renren.modules.dzu.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -65,6 +67,7 @@ public class LeaveController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody LeaveEntity leave){
+        ValidatorUtils.validateEntity(leave, AddGroup.class);
 
         return leaveService.addLeave(leave);
     }
@@ -74,6 +77,8 @@ public class LeaveController {
      */
     @RequestMapping("/update")
     public R update(@RequestBody LeaveEntity leave){
+        ValidatorUtils.validateEntity(leave, UpdateGroup.class);
+
         return leaveService.updateLeaveAndReportWork(leave);
 
     }

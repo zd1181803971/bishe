@@ -17,10 +17,13 @@ import java.util.Map;
 public interface EmployeeecService extends IService<EmployeeecEntity> {
 
     PageUtils queryPage(Map<String, Object> params);
+
     PageUtils queryPage2(Map<String, Object> params);
 
     HashMap<String, Integer> getEmpClock();
 
-    EmployeeecEntity getEmpClockByEid(String eid);
+    EmployeeecEntity getEmpClockByEid(String jobnumber);
+
+    PageUtils getemployeeecForm(Map<String, Object> params);
 }
 
