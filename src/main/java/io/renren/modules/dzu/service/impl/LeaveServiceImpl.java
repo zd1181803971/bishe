@@ -24,7 +24,6 @@ import java.time.Instant;
 import java.time.LocalDate;
 import java.time.ZoneId;
 import java.time.ZonedDateTime;
-import java.time.temporal.ChronoUnit;
 import java.util.Date;
 import java.util.List;
 import java.util.Map;
@@ -43,7 +42,7 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
     @Override
     public PageUtils getLeaveListByJob(Map<String, Object> params) {
         String jobNumber = null;
-        if (params.get("jobNumber") != null && !params.get("jobNumber").equals("")) {
+        if (params.get("jobNumber") != null && !"".equals(params.get("jobNumber"))) {
             jobNumber = params.get("jobNumber").toString();
 
         }
@@ -58,7 +57,6 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
                 leaveEntityPageInfo.getSize(),
                 leaveEntityPageInfo.getPageNum());
     }
-
 
 
     @Override
@@ -117,37 +115,42 @@ public class LeaveServiceImpl extends ServiceImpl<LeaveDao, LeaveEntity> impleme
         LocalDate endTime = instant2.atZone(zoneId).toLocalDate();
 
 
-
         LocalDate dateTemp = startTime;
-        long days = startTime.until(endTime, ChronoUnit.DAYS);
+//        long days = startTime.until(endTime, ChronoUnit.DAYS);
         LocalDate endTimeTemp = endTime.plusDays(1L);
 //        通过
-        if (status == 1){
-                while (dateTemp.isBefore(endTimeTemp)){
-                    ZonedDateTime zdt = dateTemp.atStartOfDay(zoneId);
-                    Date date = Date.from(zdt.toInstant());
-                    EmployeeecEntity entity = new EmployeeecEntity();
-                    entity.setEid(leave.getEid());
-                    entity.setEctype(1);
-                    entity.setEchour(0L);
-                    entity.setEcdate(date);
-                    entity.setRemark(leave.getReason());
-                    employeeecService.save(entity);
-                    dateTemp = dateTemp.plusDays(1L);
-                }
+        if (status == 1) {
+            while (dateTemp.isBefore(endTimeTemp)) {
+                ZonedDateTime zdt = dateTemp.atStartOfDay(zoneId);
+                Date date = Date.from(zdt.toInstant());
+                EmployeeecEntity entity = new EmployeeecEntity();
+                entity.setEid(leave.getEid());
+                entity.setEctype(1);
+                entity.setEchour(0L);
+                entity.setEcdate(date);
+                entity.setRemark(leave.getReason());
+                employeeecService.save(entity);
+                dateTemp = dateTemp.plusDays(1L);
+            }
         }
         return R.ok();
     }
 
     @Override
     public R addLeave(LeaveEntity leave) {
-        LeaveEntity eid = baseMapper.selectOne(new QueryWrapper<LeaveEntity>().eq("eid", leave.getEid()).eq("status",leave.getStatus()));
-        if (eid == null){
-            baseMapper.insert(leave);
-            return R.ok();
-        }else {
+        LeaveEntity eid = baseMapper.selectOne(new QueryWrapper<LeaveEntity>().eq("eid", leave.getEid()).eq("status", leave.getStatus()));
+        LeaveEntity cancel = baseMapper.selectOne(new QueryWrapper<LeaveEntity>().eq("eid", leave.getEid()).eq("status", 1));
+        if (eid != null) {
             return R.error("等待管理员审批后再次请假！");
         }
+        if (cancel != null) {
+            return R.error("请销假后再次请假！");
+
+        }
+
+        baseMapper.insert(leave);
+        return R.ok();
+
     }
 }
 

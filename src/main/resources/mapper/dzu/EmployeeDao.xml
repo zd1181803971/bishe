@@ -76,6 +76,7 @@
         <if test="id!=null and id!=''">
             and e.id = #{id}
         </if>
+        order by e.workState desc
     </select>
 
     <select id="getIdNameByJob" resultType="io.renren.modules.dzu.entity.dto.EmpIdNameDto" parameterType="string">

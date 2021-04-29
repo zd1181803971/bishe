@@ -36,5 +36,6 @@
         select id,eid,start_time ,end_time ,reason,status,message
         from dzu_leave
         where eid = (select e.id from dzu_employee e where e.jobNumber = #{jobNumber})
+        order by status
     </select>
 </mapper>

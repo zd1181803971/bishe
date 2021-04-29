@@ -4,11 +4,8 @@ import com.baomidou.mybatisplus.annotation.TableId;
 import com.baomidou.mybatisplus.annotation.TableLogic;
 import com.baomidou.mybatisplus.annotation.TableName;
 import com.fasterxml.jackson.annotation.JsonFormat;
-import io.renren.common.validator.group.AddGroup;
-import io.renren.common.validator.group.UpdateGroup;
 import lombok.Data;
 
-import javax.validation.constraints.Pattern;
 import java.io.Serializable;
 import java.util.Date;
 
@@ -32,12 +29,12 @@ public class EmployeeEntity implements Serializable {
 	/**
 	 * 员工姓名
 	 */
-	@Pattern(regexp = "/^[\\u4E00-\\u9FA5]{2,4}$/",message = "姓名必须是中午，2-4个汉字",groups = {AddGroup.class, UpdateGroup.class})
+//	@Pattern(regexp = "/^[\\u4E00-\\u9FA5]{2,4}$/",message = "姓名必须是中文，2-4个汉字",groups = {AddGroup.class, UpdateGroup.class})
 	private String name;
 	/*
 	员工工号
 	 */
-	@Pattern(regexp = "/^[d][z][u][\\d]{3}$/",message = "员工工号必须以dzu开头，后面三位数字",groups = {AddGroup.class, UpdateGroup.class})
+//	@Pattern(regexp = "/^[d][z][u][\\d]{3}$/",message = "员工工号必须以dzu开头，后面三位数字",groups = {AddGroup.class, UpdateGroup.class})
 	private String jobnumber;
 	/**
 	 * 性别

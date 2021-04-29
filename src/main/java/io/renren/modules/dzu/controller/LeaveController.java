@@ -10,7 +10,11 @@ import io.renren.modules.dzu.service.LeaveService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.time.Instant;
+import java.time.LocalDate;
+import java.time.ZoneId;
 import java.util.Arrays;
+import java.util.Date;
 import java.util.Map;
 
 
@@ -28,6 +32,26 @@ public class LeaveController {
     @Autowired
     private LeaveService leaveService;
 
+
+    /**
+     * 通过id销假
+     */
+    @RequestMapping("/update/id")
+    public R updateById(@RequestBody LeaveEntity leave){
+        Date time = leave.getEndTime();
+
+        Instant instant = time.toInstant();
+        ZoneId zoneId = ZoneId.systemDefault();
+
+        LocalDate endTime = instant.atZone(zoneId).toLocalDate();
+
+        LocalDate now = LocalDate.now();
+        if (endTime.isAfter(now)){
+            return R.error("假期还未结束！不能销假！");
+        }
+        leaveService.updateById(leave);
+        return R.ok();
+    }
 
 //    通过员工工号查询员工的所有请假记录
     @GetMapping("/getLeaveListByjobNumber")
