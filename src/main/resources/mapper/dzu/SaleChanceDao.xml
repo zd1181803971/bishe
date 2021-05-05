@@ -55,10 +55,10 @@ where 1 = 1
         <if test="devResult!=null and devResult!=''">
             and dev_result = #{devResult}
         </if>
-        <if test="state!=null and state!=''">
+        <if test="state !=null and state!= ''">
             and allocation_state = #{state}
         </if>
-
+        order by allocation_state
     </select>
     <select id="getListFormByAssignEmp" resultType="io.renren.modules.dzu.entity.form.SaleChanceForm">
         select s.id,
@@ -94,6 +94,7 @@ where 1 = 1
         <if test="state!=null and state!=''">
             and allocation_state = #{state}
         </if>
+        order by dev_result
     </select>
 
 

@@ -5,6 +5,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.dzu.entity.CustomerEntity;
 import io.renren.modules.dzu.entity.dto.EchartsCountDto;
+import io.renren.modules.dzu.entity.form.SelectForm;
 
 import java.util.List;
 import java.util.Map;
@@ -29,5 +30,8 @@ public interface CustomerService extends IService<CustomerEntity> {
 
     List<EchartsCountDto> getCustomerCountByEcharts();
 
+    List<SelectForm> getCustomerAllNamesBySelect();
+
+    R saveCustomer(CustomerEntity customer);
 }
 

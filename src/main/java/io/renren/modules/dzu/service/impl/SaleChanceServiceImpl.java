@@ -39,7 +39,7 @@ public class SaleChanceServiceImpl extends ServiceImpl<SaleChanceDao, SaleChance
 
         String createMan = null;
         String assignMan = null;
-        Integer state = null;
+        String state = null;
         Integer devResult = null;
         if (params.get("createMan") != null){
             createMan = (String)params.get("createMan");
@@ -48,7 +48,7 @@ public class SaleChanceServiceImpl extends ServiceImpl<SaleChanceDao, SaleChance
             assignMan = (String) params.get("assignMan");
         }
         if (params.get("allocationState") != null){
-            state = (Integer) params.get("allocationState");
+            state =  params.get("allocationState").toString();
         }
 
 ////        分页
@@ -67,21 +67,21 @@ public class SaleChanceServiceImpl extends ServiceImpl<SaleChanceDao, SaleChance
         String customerName = null;
         String assignMan = null;
 
-        Integer state = null;
-        Integer devResult = null;
+        String state = null;
+        String devResult = null;
 
-        if (!"".equals((String)params.get("customerName"))){
+        if (params.get("customerName") != null){
             customerName = (String) params.get("customerName");
         }
-        if (!"".equals((String)params.get("assignMan"))){
+        if (params.get("assignMan") != null){
             assignMan = (String) params.get("assignMan");
         }
-        if (!"".equals((String)params.get("allocationState"))){
-            state = Integer.parseInt(params.get("allocationState").toString());
+        if (params.get("allocationState") != null){
+            state = (String) params.get("allocationState");
         }
 
-        if (!"".equals((String)params.get("devResult"))){
-            devResult = Integer.parseInt(params.get("devResult").toString());
+        if (params.get("devResult") != null){
+            devResult = (String) params.get("devResult");
         }
         if (assignMan == null){
             return null;

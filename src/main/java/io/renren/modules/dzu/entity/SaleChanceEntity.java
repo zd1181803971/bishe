@@ -29,9 +29,9 @@ public class SaleChanceEntity implements Serializable {
 	 */
 	private String chanceSource;
 	/**
-	 * 客户名称
+	 * 客户ID
 	 */
-	private String customerName;
+	private Long customerName;
 	/**
 	 * 成功几率
 	 */

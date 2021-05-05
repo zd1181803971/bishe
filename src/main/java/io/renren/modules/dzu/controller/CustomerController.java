@@ -4,6 +4,7 @@ import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
 import io.renren.modules.dzu.entity.CustomerEntity;
 import io.renren.modules.dzu.entity.dto.EchartsCountDto;
+import io.renren.modules.dzu.entity.form.SelectForm;
 import io.renren.modules.dzu.service.CustomerService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -29,6 +30,19 @@ public class CustomerController {
     private CustomerService customerService;
 
 
+    /**
+     * 获取客户姓名select
+     * @return
+     */
+    @GetMapping("/getCustomerAllNames")
+    public R getCustomerAllNamesBySelect(){
+        List<SelectForm> list = customerService.getCustomerAllNamesBySelect();
+        return R.ok().put("list",list);
+    }
+    /**
+     * 获取客户级别echarts统计数
+     * @return
+     */
     @RequestMapping("/getCustomerByEcharts")
     public R getCustomerCountByEcharts(){
         List<EchartsCountDto> list = customerService.getCustomerCountByEcharts();
@@ -69,12 +83,7 @@ public class CustomerController {
      */
     @RequestMapping("/save")
     public R save(@RequestBody CustomerEntity customer){
-        customer.setState(1);
-        customer.setIsValid(1);
-        customer.setCreateDate(new Date());
-		customerService.save(customer);
-
-        return R.ok();
+        return  customerService.saveCustomer(customer);
     }
 
     /**

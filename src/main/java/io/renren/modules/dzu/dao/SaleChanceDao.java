@@ -17,8 +17,8 @@ import java.util.List;
 @Mapper
 public interface SaleChanceDao extends BaseMapper<SaleChanceEntity> {
 
-    List<SaleChanceForm> getFormList(String createMan, String assignMan, Integer state, Integer devResult);
+    List<SaleChanceForm> getFormList(String createMan, String assignMan, String state, Integer devResult);
 
-    List<SaleChanceForm> getListFormByAssignEmp(String assignMan,String customerName, Integer state, Integer devResult);
+    List<SaleChanceForm> getListFormByAssignEmp(String assignMan,String customerName, String state, String devResult);
 
 }
