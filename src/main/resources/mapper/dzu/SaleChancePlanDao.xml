@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.dzu.dao.SaleChancePlanDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.dzu.entity.SaleChancePlanEntity" id="saleChancePlanMap">
+        <result property="id" column="id"/>
+        <result property="saleChanceId" column="sale_chance_id"/>
+        <result property="planItem" column="plan_item"/>
+        <result property="planDate" column="plan_date"/>
+        <result property="exeAffect" column="exe_affect"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+        <result property="isValid" column="is_valid"/>
+    </resultMap>
+
+
+</mapper>

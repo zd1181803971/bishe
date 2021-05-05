@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="io.renren.modules.dzu.dao.CustomerDao">
+
+	<!-- 可根据自己的需求，是否要使用 -->
+    <resultMap type="io.renren.modules.dzu.entity.CustomerEntity" id="customerMap">
+        <result property="id" column="id"/>
+        <result property="number" column="number"/>
+        <result property="name" column="name"/>
+        <result property="area" column="area"/>
+        <result property="manager" column="manager"/>
+        <result property="level" column="level"/>
+        <result property="satisfied" column="satisfied"/>
+        <result property="credit" column="credit"/>
+        <result property="address" column="address"/>
+        <result property="postCode" column="post_code"/>
+        <result property="phone" column="phone"/>
+        <result property="webSite" column="web_site"/>
+        <result property="businessLicense" column="business_license"/>
+        <result property="legalRepresentative" column="legal_representative"/>
+        <result property="registeredCapital" column="registered_capital"/>
+        <result property="turnover" column="turnover"/>
+        <result property="bankName" column="bank_name"/>
+        <result property="bankId" column="bank_id"/>
+        <result property="stateTax" column="state_tax"/>
+        <result property="landTax" column="land_tax"/>
+        <result property="state" column="state"/>
+        <result property="isValid" column="is_valid"/>
+        <result property="createDate" column="create_date"/>
+        <result property="updateDate" column="update_date"/>
+    </resultMap>
+
+
+</mapper>

@@ -8,13 +8,13 @@ import io.renren.common.validator.group.UpdateGroup;
 import io.renren.modules.dzu.entity.EmployeeEntity;
 import io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto;
 import io.renren.modules.dzu.entity.dto.EmpIdNameDto;
+import io.renren.modules.dzu.entity.form.SelectForm;
 import io.renren.modules.dzu.service.EmployeeService;
-import io.renren.modules.dzu.service.SalaryService;
 import io.renren.modules.sys.controller.AbstractController;
-import io.renren.modules.sys.service.SysUserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -30,12 +30,22 @@ import java.util.Map;
 @RestController
 @RequestMapping("dzu/employee")
 public class EmployeeController extends AbstractController {
-    @Autowired
-    private SysUserService sysUserService;
+
     @Autowired
     private EmployeeService employeeService;
-    @Autowired
-    private SalaryService salaryService;
+
+
+//    选择器Select  获取所有员工姓名
+        @GetMapping("/getEmpNameList")
+    public R getEmpNameList(){
+        List<EmployeeEntity> list = employeeService.list(null);
+        ArrayList<SelectForm> selectForms = new ArrayList<>();
+        for (EmployeeEntity entity: list){
+            selectForms.add(new SelectForm(entity.getJobnumber(),entity.getId()));
+        }
+        return R.ok().put("list",selectForms);
+    }
+
 
 // 获取部门以及部门下员工人数
     @GetMapping("/getDeptAndEmpCount")
