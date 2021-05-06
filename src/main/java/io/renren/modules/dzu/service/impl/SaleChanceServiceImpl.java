@@ -36,7 +36,6 @@ public class SaleChanceServiceImpl extends ServiceImpl<SaleChanceDao, SaleChance
 
     @Override
     public PageUtils getListForm(Map<String, Object> params) {
-
         String createMan = null;
         String assignMan = null;
         String state = null;

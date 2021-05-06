@@ -58,7 +58,7 @@ where 1 = 1
         <if test="state !=null and state!= ''">
             and allocation_state = #{state}
         </if>
-        order by allocation_state
+        order by allocation_state,dev_result
     </select>
     <select id="getListFormByAssignEmp" resultType="io.renren.modules.dzu.entity.form.SaleChanceForm">
         select s.id,

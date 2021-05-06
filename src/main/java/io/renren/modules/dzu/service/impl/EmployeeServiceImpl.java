@@ -209,7 +209,8 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
 
     @Override
     public R updateWithEmailAndPhone(EmployeeEntity employee) {
-        if (employee.getWorkstate() == 1){
+        EmployeeEntity entity1 = baseMapper.selectById(employee.getId());
+        if (entity1.getWorkstate() == 1){
             baseMapper.updateById(employee);
             EmployeeEntity entity = baseMapper.selectById(employee.getId());
             String name = null;
