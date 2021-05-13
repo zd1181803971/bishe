@@ -12,7 +12,6 @@ import io.renren.modules.dzu.entity.OliticsstatusEntity;
 import io.renren.modules.dzu.entity.form.OliticsstatusForm;
 import io.renren.modules.dzu.service.OliticsstatusService;
 import org.apache.commons.lang.StringUtils;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -21,8 +20,6 @@ import java.util.Map;
 
 @Service("oliticsstatusService")
 public class OliticsstatusServiceImpl extends ServiceImpl<OliticsstatusDao, OliticsstatusEntity> implements OliticsstatusService {
-    @Autowired
-    OliticsstatusDao oliticsstatusDao;
 
     @Override
     public PageUtils getOliticsstatusForm(Map<String, Object> params) {
@@ -32,7 +29,7 @@ public class OliticsstatusServiceImpl extends ServiceImpl<OliticsstatusDao, Olit
         }
         IPage<OliticsstatusForm> page = new Query<OliticsstatusForm>().getPage(params);
         PageHelper.startPage((int) page.getCurrent(), (int) page.getSize());
-        List<OliticsstatusForm> oliticsstatusFormList = oliticsstatusDao.getOliticsstatusFormList(name);
+        List<OliticsstatusForm> oliticsstatusFormList = baseMapper.getOliticsstatusFormList(name);
         PageInfo<OliticsstatusForm> oliticsstatusFormPageInfo = new PageInfo<>(oliticsstatusFormList);
         return new PageUtils(oliticsstatusFormPageInfo.getList(),
                 (int) oliticsstatusFormPageInfo.getTotal(),

@@ -48,7 +48,6 @@ public class OAuth2Filter extends AuthenticatingFilter {
         if(((HttpServletRequest) request).getMethod().equals(RequestMethod.OPTIONS.name())){
             return true;
         }
-
         return false;
     }
 

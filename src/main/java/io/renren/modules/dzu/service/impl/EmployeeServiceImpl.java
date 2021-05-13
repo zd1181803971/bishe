@@ -56,24 +56,46 @@ public class EmployeeServiceImpl extends ServiceImpl<EmployeeDao, EmployeeEntity
 
     @Override
     public R saveEmpWithSalaryAndSysUser(EmployeeEntity employee) {
+        // 如果前端出入的数据封装成的Entity不为空
         if (employee != null) {
-            EmployeeEntity entity = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>().eq("jobNumber", employee.getJobnumber()));
+            // 使用Mybatis Plus的条件构造器查询是否已经有此员工
+            EmployeeEntity entity = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>()
+                    .eq("jobNumber", employee.getJobnumber()));
+            // 如果查询出的员工为空，说明新增的员工数据库中不存在
             if (entity == null) {
+                // 增加员工
                 int insert = baseMapper.insert(employee);
+                // 若果返回的值大于零，增加成功
                 if (insert > 0) {
-                    SysRoleEntity one = sysRoleService.getOne(new QueryWrapper<SysRoleEntity>().eq("role_name", ROLE_NAME));
+                    //获取到员工角色的信息
+                    SysRoleEntity one = sysRoleService.getOne(new QueryWrapper<SysRoleEntity>()
+                            .eq("role_name", ROLE_NAME));
+                    // 员工角色不为空
                     if (one != null) {
                         SysUserEntity sysUserEntity = new SysUserEntity();
+                        // 设置登录名为员工共工号
                         sysUserEntity.setUsername(employee.getJobnumber());
+                        // 设置账户状态
                         sysUserEntity.setStatus(1);
+                        // 设置默认密码
                         sysUserEntity.setPassword(PASSWORD);
-                        sysUserEntity.setRoleIdList(Arrays.asList(one.getRoleId()));
+                        // 设置角色ID
+                        sysUserEntity.setRoleIdList(Collections.singletonList(one.getRoleId()));
+                        // 新增系统账户
                         sysUserService.saveUser(sysUserEntity);
-
-                        EmployeeEntity entityTemp = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>().eq("jobNumber", employee.getJobnumber()));
-                        SalaryEntity salaryEntity = new SalaryEntity(null, entityTemp.getId(), 3000.00, 0.00, 10.00, 200.00, 3210.00);
+                        // 查询出新添加的员工的id
+                        EmployeeEntity entityTemp = baseMapper.selectOne(new QueryWrapper<EmployeeEntity>()
+                                .eq("jobNumber", employee.getJobnumber()));
+                        // 设置新员工默认薪资
+                        SalaryEntity salaryEntity = new SalaryEntity(null,
+                                entityTemp.getId(),
+                                3000.00,
+                                0.00,
+                                10.00,
+                                200.00,
+                                3210.00);
+                        // 添加此员工薪资记录
                         boolean save = salaryService.save(salaryEntity);
-
                         if (save) {
                             return R.ok("员工添加成功！");
                         }

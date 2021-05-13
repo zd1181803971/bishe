@@ -32,7 +32,7 @@ import java.util.Map;
 /**
  * 登录相关
  *
- * @author Mark sunlightcs@gmail.com
+ *
  */
 @RestController
 public class SysLoginController extends AbstractController {
@@ -50,7 +50,6 @@ public class SysLoginController extends AbstractController {
 	public void captcha(HttpServletResponse response, String uuid)throws IOException {
 		response.setHeader("Cache-Control", "no-store, no-cache");
 		response.setContentType("image/jpeg");
-
 		//获取图片验证码
 		BufferedImage image = sysCaptchaService.getCaptcha(uuid);
 		ServletOutputStream out = response.getOutputStream();
@@ -63,25 +62,23 @@ public class SysLoginController extends AbstractController {
 	 */
 	@PostMapping("/sys/login")
 	public Map<String, Object> login(@RequestBody SysLoginForm form)throws IOException {
+
+		// 首先校验验证码是否正确
 		boolean captcha = sysCaptchaService.validate(form.getUuid(), form.getCaptcha());
 		if(!captcha){
 			return R.error("验证码不正确");
 		}
-
-		//用户信息
+		// 通过输入的工号查询账户
 		SysUserEntity user = sysUserService.queryByUserName(form.getUsername());
-
-		//账号不存在、密码错误
+		//账户不存在 或者 密码错误
 		if(user == null || !user.getPassword().equals(new Sha256Hash(form.getPassword(), user.getSalt()).toHex())) {
 			return R.error("员工工号或密码不正确");
 		}
-
-		//账号锁定
+		// 账号被锁定
 		if(user.getStatus() == 0){
 			return R.error("账号已被锁定,请联系管理员");
 		}
-
-		//生成token，并保存到数据库
+		//生成token，保存到数据库，并返回给前端
 		R r = sysUserTokenService.createToken(user.getUserId());
 		return r;
 	}

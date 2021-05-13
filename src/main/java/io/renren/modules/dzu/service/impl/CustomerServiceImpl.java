@@ -31,7 +31,9 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
     @Override
     public PageUtils queryPage(Map<String, Object> params) {
         IPage<CustomerEntity> page = this.page(
+                // 通过Query工具类解析params中的分页参数并返回IPage对象
                 new Query<CustomerEntity>().getPage(params),
+                // 通过getQueryWrapper方法获取QueryWrapper条件构造器
                 getQueryWrapper(params)
         );
 
@@ -39,11 +41,16 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
     }
 
     public QueryWrapper<CustomerEntity> getQueryWrapper(Map<String, Object> params) {
+        // 创建一个新的QueryWrapper条件构造器，指定泛型为CustomerEntity
         QueryWrapper<CustomerEntity> wrapper = new QueryWrapper<>();
+        // 如果传入Map中键值为name的值不为空
         if (params.get("name") != null) {
+            // 添加条件，模糊查询
             wrapper.like("name", params.get("name"));
         }
+        // 添加条件，流失状态为 ‘1’，代表未流失
         wrapper.eq("state", "1");
+        // 将条件构造器返回
         return wrapper;
     }
 
@@ -112,21 +119,23 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
 
     @Override
     public R saveCustomer(CustomerEntity customer) {
-        CustomerEntity one = baseMapper.selectOne(new QueryWrapper<CustomerEntity>().eq("number", customer.getNumber()).or().eq("name", customer.getName()));
-        if (one != null) {
-            return R.error("公司名称已经存在！");
+        CustomerEntity customerEntity = baseMapper.selectOne(new QueryWrapper<CustomerEntity>().eq("name", customer.getName()));
+        if (customerEntity!=null) {
+            return R.error("客户名已存在");
         }
-        CustomerEntity numberEntity = baseMapper.selectOne(new QueryWrapper<CustomerEntity>().orderByDesc("number").last("limit 1"));
+        // 通过降序获得第一条数据
+        CustomerEntity numberEntity = baseMapper.selectOne(new QueryWrapper<CustomerEntity>()
+                .orderByDesc("number")
+                .last("limit 1"));
+        // 获取到最新的编号内容
         String number = numberEntity.getNumber();
 
-        String regex = "HK[0-9]{0,3}";
-        boolean flag = number.matches(regex);
-        if (!flag) {
-            return R.error("数据异常，请联系管理员");
-        }
+        // 将HK后面的数字强转为int
         int i = Integer.parseInt(number.substring(2));
+        // 数字加一
         i++;
         String newNumber = null;
+        // 拼接字符串
         if (i < 10) {
             newNumber = "HK00" + i;
         } else if (i < 100) {
@@ -134,10 +143,12 @@ public class CustomerServiceImpl extends ServiceImpl<CustomerDao, CustomerEntity
         } else if (i < 1000) {
             newNumber = "HK" + i;
         }
+        // 将新生成的客户编号设置到对象中
         customer.setNumber(newNumber);
         customer.setState(1);
         customer.setIsValid(1);
         customer.setCreateDate(new Date());
+        // 插入数据
         baseMapper.insert(customer);
         return R.ok();
     }

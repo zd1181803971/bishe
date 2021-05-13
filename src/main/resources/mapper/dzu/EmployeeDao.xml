@@ -67,6 +67,7 @@
         and e.departmentId = d.id
         and e.jobLevelId = j.id
         and e.posId = p.id
+
         <if test="name!=null and name!=''">
             and e.name like concat('%',#{name},'%')
         </if>
@@ -84,6 +85,7 @@
         from dzu_employee e
         where e.jobNumber = #{jobNumber}
     </select>
+
     <select id="getDeptAndEmpCount" resultType="io.renren.modules.dzu.entity.dto.DeptAndEmpCountDto">
         select  d.name `name`,count(*) `value`
         from dzu_employee e,

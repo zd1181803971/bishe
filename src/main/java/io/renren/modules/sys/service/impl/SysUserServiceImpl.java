@@ -108,7 +108,9 @@ public class SysUserServiceImpl extends ServiceImpl<SysUserDao, SysUserEntity> i
 		SysUserEntity userEntity = new SysUserEntity();
 		userEntity.setPassword(newPassword);
 		return this.update(userEntity,
-				new QueryWrapper<SysUserEntity>().eq("user_id", userId).eq("password", password));
+				new QueryWrapper<SysUserEntity>()
+						.eq("user_id", userId)
+						.eq("password", password));
 	}
 
 
