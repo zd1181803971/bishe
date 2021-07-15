@@ -2,6 +2,7 @@ package io.renren.modules.dzu.controller;
 
 import io.renren.common.utils.PageUtils;
 import io.renren.common.utils.R;
+import io.renren.common.utils.RedisUtils;
 import io.renren.modules.dzu.entity.CustomerEntity;
 import io.renren.modules.dzu.entity.dto.EchartsCountDto;
 import io.renren.modules.dzu.entity.form.SelectForm;
@@ -28,7 +29,6 @@ import java.util.Map;
 public class CustomerController {
     @Autowired
     private CustomerService customerService;
-
 
     /**
      * 获取客户姓名select

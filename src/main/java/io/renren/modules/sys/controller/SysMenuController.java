@@ -12,7 +12,6 @@ import io.renren.common.exception.RRException;
 import io.renren.common.utils.Constant;
 import io.renren.common.utils.R;
 import io.renren.modules.sys.entity.SysMenuEntity;
-import io.renren.modules.sys.service.ShiroService;
 import io.renren.modules.sys.service.SysMenuService;
 import org.apache.commons.lang.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,8 +29,8 @@ import java.util.List;
 public class SysMenuController extends AbstractController {
 	@Autowired
 	private SysMenuService sysMenuService;
-	@Autowired
-	private ShiroService shiroService;
+
+
 
 	/**
 	 * 导航菜单
@@ -47,13 +46,14 @@ public class SysMenuController extends AbstractController {
 	 */
 	@GetMapping("/list")
 	public List<SysMenuEntity> list(){
-		List<SysMenuEntity> menuList = sysMenuService.list();
-		for(SysMenuEntity sysMenuEntity : menuList){
-			SysMenuEntity parentMenuEntity = sysMenuService.getById(sysMenuEntity.getParentId());
-			if(parentMenuEntity != null){
-				sysMenuEntity.setParentName(parentMenuEntity.getName());
+
+			List<SysMenuEntity> menuList = sysMenuService.list();
+			for(SysMenuEntity sysMenuEntity : menuList){
+				SysMenuEntity parentMenuEntity = sysMenuService.getById(sysMenuEntity.getParentId());
+				if(parentMenuEntity != null){
+					sysMenuEntity.setParentName(parentMenuEntity.getName());
+				}
 			}
-		}
 
 		return menuList;
 	}
